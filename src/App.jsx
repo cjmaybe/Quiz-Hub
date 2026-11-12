@@ -240,3 +240,457 @@ export default function QuizApp() {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [optMapping, setOptMapping] = useState({});
+  const [fade, setFade] = useState(true);
+
+  const startQuiz = useCallback(() => {
+    let qs = selectedUnit === 0 ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.unit === selectedUnit);
+    if (shuffleQ) qs = shuffle(qs);
+    const mapping = {};
+    qs.forEach(q => { mapping[q.id] = shuffleOpts ? shuffle([0,1,2,3]) : [0,1,2,3]; });
+    setQuestions(qs);
+    setOptMapping(mapping);
+    setAnswers({});
+    setCurrent(0);
+    setSubmitted(false);
+    setScreen("quiz");
+  }, [selectedUnit, shuffleQ, shuffleOpts]);
+
+  const selectAnswer = (qId, displayIdx) => {
+    if (submitted) return;
+    setAnswers(prev => ({...prev, [qId]: displayIdx}));
+  };
+
+  const goNext = () => {
+    if (current < questions.length - 1) {
+      setFade(false);
+      setTimeout(() => { setCurrent(c => c + 1); setFade(true); }, 100);
+    }
+  };
+
+  const goPrev = () => {
+    if (current > 0) {
+      setFade(false);
+      setTimeout(() => { setCurrent(c => c - 1); setFade(true); }, 100);
+    }
+  };
+
+  const submitQuiz = () => {
+    setSubmitted(true);
+  };
+
+  const score = submitted ? questions.reduce((acc, q) => {
+    const map = optMapping[q.id] || [0,1,2,3];
+    const chosen = answers[q.id];
+    if (chosen === undefined) return acc;
+    return map[chosen] === q.ans ? acc + 1 : acc;
+  }, 0) : 0;
+
+  const pct = questions.length ? Math.round(score / questions.length * 100) : 0;
+  const q = questions[current];
+  const map = q ? (optMapping[q.id] || [0,1,2,3]) : [];
+
+  // BUG FIX: define allAnswered so the submit button condition works
+  const allAnswered = questions.length > 0 && Object.keys(answers).length === questions.length;
+
+  // Shared label style
+  const labelStyle = {fontSize:10,fontWeight:600,letterSpacing:2,textTransform:"uppercase",color:"#888",fontFamily:"var(--mono)"};
+
+  // ── HOME SCREEN ───────────────────────────────────────────────────────────
+  if (screen === "home") {
+    return (
+      <>
+        <FontInjector/>
+        <div style={{minHeight:"100vh",background:"var(--bg)",position:"relative"}}>
+          <DotGrid opacity={0.15}/>
+
+          <header style={{position:"relative",zIndex:2,borderBottom:"1px solid var(--border)",background:"var(--bg)"}}>
+            <div style={{maxWidth:640,margin:"0 auto",padding:"20px 24px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
+                <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>QUIZ HUB</span>
+              </div>
+              <span
+              style={{
+                fontSize: 11,
+                color: "#888",
+                fontWeight: 500,
+                fontFamily: "Noto Sans Tamil, Segoe UI, sans-serif",
+                whiteSpace: "nowrap"
+              }}
+            >
+              BY சிஜே.
+            </span>
+            </div>
+          </header>
+
+          <main style={{position:"relative",zIndex:2,maxWidth:640,margin:"0 auto",padding:"48px 24px 80px"}}>
+            {/* Hero */}
+            <div style={{marginBottom:56}}>
+              <h1 style={{fontSize:42,fontWeight:700,lineHeight:1.05,letterSpacing:-1.5,margin:"0 0 12px",color:"var(--text)"}}>
+                Aptitude<br/>
+                <span style={{color:"var(--red)"}}>Practice</span>
+              </h1>
+              <p style={{fontSize:15,color:"#888",lineHeight:1.6,maxWidth:380,fontWeight:400}}>
+                {ALL_QUESTIONS.length} questions across {UNITS.length - 1} units. Select, practice, improve.
+              </p>
+            </div>
+
+            {/* Unit Selection */}
+            <div style={{marginBottom:40}}>
+              <div style={{...labelStyle,marginBottom:16,paddingLeft:1}}>SELECT UNIT</div>
+              <div style={{display:"flex",flexDirection:"column",gap:0,borderTop:"1px solid var(--border)"}}>
+                {UNITS.map(u => {
+                  const active = selectedUnit === u.id;
+                  return (
+                    <button key={u.id} onClick={() => setSelectedUnit(u.id)} style={{
+                      display:"flex",alignItems:"center",gap:16,padding:"16px 4px",
+                      borderBottom:"1px solid var(--border)",background:"none",borderLeft:"none",borderRight:"none",
+                      cursor:"pointer",textAlign:"left",width:"100%",transition:"all .15s",
+                    }}>
+                      <span style={{fontFamily:"var(--mono)",fontSize:13,fontWeight:700,color: active ? "var(--red)" : "#CCC",width:28,transition:"color .15s"}}>{u.short}</span>
+                      <span style={{flex:1,fontSize:15,fontWeight: active ? 700 : 400,color: active ? "var(--text)" : "#666",transition:"all .15s",letterSpacing: active ? 0.5 : 0}}>{u.label}</span>
+                      <span style={{fontFamily:"var(--mono)",fontSize:11,color:"#CCC",fontWeight:400}}>{String(u.count).padStart(2,"0")}</span>
+                      <span style={{width:16,height:16,borderRadius:"50%",border: active ? "none" : "1.5px solid #DDD",background: active ? "var(--red)" : "transparent",transition:"all .15s",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                        {active && <span style={{color:"white",fontSize:9}}>✓</span>}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Toggles */}
+            <div style={{marginBottom:40}}>
+              <div style={{...labelStyle,marginBottom:16,paddingLeft:1}}>PREFERENCES</div>
+              <div style={{display:"flex",gap:12}}>
+                {[
+                  {label:"Shuffle Questions", val:shuffleQ, set:setShuffleQ},
+                  {label:"Shuffle Options", val:shuffleOpts, set:setShuffleOpts},
+                ].map(t => (
+                  <button key={t.label} onClick={() => t.set(p => !p)} style={{
+                    flex:1,padding:"14px 16px",borderRadius:2,
+                    border: t.val ? "1.5px solid var(--red)" : "1.5px solid var(--border)",
+                    background: t.val ? "var(--red-soft)" : "var(--surface)",cursor:"pointer",
+                    display:"flex",alignItems:"center",justifyContent:"space-between",
+                    transition:"all .15s",fontSize:13,fontWeight: t.val ? 600 : 400,
+                    color: t.val ? "var(--red)" : "#666",
+                  }}>
+                    <span>{t.label}</span>
+                    <span style={{
+                      width:36,height:20,borderRadius:10,background: t.val ? "var(--red)" : "#E5E5E5",
+                      position:"relative",transition:"background .2s",flexShrink:0,
+                    }}>
+                      <span style={{
+                        width:16,height:16,borderRadius:"50%",background:"white",position:"absolute",top:2,
+                        left: t.val ? 18 : 2,transition:"left .2s",boxShadow:"0 1px 3px rgba(0,0,0,0.2)",
+                      }}/>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Start */}
+            <button onClick={startQuiz} style={{
+              width:"100%",padding:"18px",borderRadius:2,border:"none",
+              background:"var(--red)",color:"white",
+              fontSize:14,fontWeight:700,cursor:"pointer",letterSpacing:2,
+              fontFamily:"var(--mono)",transition:"all .15s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background="#E0342B"; }}
+              onMouseLeave={e => { e.currentTarget.style.background="var(--red)"; }}
+            >
+              START QUIZ →
+            </button>
+          </main>
+        </div>
+      </>
+    );
+  }
+
+  // ── RESULT SCREEN ─────────────────────────────────────────────────────────
+  if (screen === "result") {
+    const gradeColor = pct >= 80 ? "var(--green)" : pct >= 60 ? "var(--amber)" : "var(--red)";
+    const gradeLabel = pct >= 80 ? "PASS" : pct >= 60 ? "AVERAGE" : "FAIL";
+    const wrongCount = Object.keys(answers).filter(k => {
+      const m = optMapping[Number(k)] || [0,1,2,3];
+      const qx = questions.find(qx => qx.id === Number(k));
+      return qx && m[answers[k]] !== qx.ans;
+    }).length;
+    const skippedCount = questions.length - Object.keys(answers).length;
+
+    return (
+      <>
+        <FontInjector/>
+        <div style={{minHeight:"100vh",background:"var(--bg)"}}>
+          <header style={{borderBottom:"1px solid var(--border)",background:"var(--bg)",position:"sticky",top:0,zIndex:20}}>
+            <div style={{maxWidth:640,margin:"0 auto",padding:"16px 24px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
+                <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>RESULTS</span>
+              </div>
+              <button onClick={() => setScreen("home")} style={{
+                padding:"6px 14px",borderRadius:2,border:"1.5px solid var(--border)",background:"var(--surface)",
+                cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",fontFamily:"var(--mono)",letterSpacing:1,transition:"all .15s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red)"; e.currentTarget.style.color = "var(--red)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "#666"; }}
+              >← BACK</button>
+            </div>
+          </header>
+
+          <main style={{maxWidth:640,margin:"0 auto",padding:"40px 24px 80px"}}>
+            {/* Score */}
+            <div style={{textAlign:"center",marginBottom:48,paddingBottom:40,borderBottom:"1px solid var(--border)"}}>
+              <div style={{...labelStyle,marginBottom:16,color:gradeColor}}>{gradeLabel}</div>
+              <div style={{fontFamily:"var(--mono)",fontSize:72,fontWeight:700,lineHeight:1,color:gradeColor,letterSpacing:-4}}>
+                {pct}<span style={{fontSize:24,color:"#CCC"}}>%</span>
+              </div>
+              <div style={{fontSize:14,color:"#888",marginTop:8,fontFamily:"var(--mono)"}}>
+                {score}/{questions.length} CORRECT
+              </div>
+
+              <div style={{display:"flex",justifyContent:"center",gap:40,marginTop:32}}>
+                {[
+                  {label:"CORRECT",val:score,color:"var(--green)"},
+                  {label:"WRONG",val:wrongCount,color:"var(--red)"},
+                  {label:"SKIPPED",val:skippedCount,color:"var(--amber)"},
+                ].map(s => (
+                  <div key={s.label} style={{textAlign:"center"}}>
+                    <div style={{fontFamily:"var(--mono)",fontSize:28,fontWeight:700,color:s.color,lineHeight:1}}>{String(s.val).padStart(2,"0")}</div>
+                    <div style={{...labelStyle,fontSize:8,marginTop:6,color:s.color}}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bar */}
+              <div style={{maxWidth:300,margin:"24px auto 0",height:3,background:"#E5E5E5",borderRadius:0,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${pct}%`,background:gradeColor,transition:"width .6s ease"}}/>
+              </div>
+            </div>
+
+            {/* Review */}
+            <div style={{...labelStyle,marginBottom:20,paddingLeft:1}}>REVIEW</div>
+            <div style={{display:"flex",flexDirection:"column",gap:0}}>
+              {questions.map((qx, idx) => {
+                const m = optMapping[qx.id] || [0,1,2,3];
+                const chosen = answers[qx.id];
+                const correct = chosen !== undefined && m[chosen] === qx.ans;
+                const isWrong = chosen !== undefined && !correct;
+                const isSkipped = chosen === undefined;
+                const borderColor = correct ? "var(--green)" : isWrong ? "var(--red)" : "var(--amber)";
+                return (
+                  <details key={qx.id} style={{borderBottom:"1px solid var(--border)"}}>
+                    <summary style={{padding:"14px 0",cursor:"pointer",display:"flex",alignItems:"center",gap:12,fontSize:13,fontWeight:400,color:"var(--text)",listStyle:"none",userSelect:"none"}}>
+                      <span style={{width:6,height:6,borderRadius:"50%",background:borderColor,flexShrink:0}}/>
+                      <span style={{fontFamily:"var(--mono)",fontSize:11,color:"#CCC",fontWeight:400,width:28,flexShrink:0}}>Q{String(idx+1).padStart(2,"0")}</span>
+                      <span style={{flex:1,lineHeight:1.4,color:"#444"}}>{qx.q.slice(0,70)}{qx.q.length > 70 ? "..." : ""}</span>
+                      <span style={{color:"#CCC",fontSize:10,fontFamily:"var(--mono)",flexShrink:0}}>+</span>
+                    </summary>
+                    <div style={{padding:"0 0 16px 18px",borderLeft:"2px solid var(--border)",marginLeft:2,paddingLeft:18}}>
+                      <div style={{fontSize:14,fontWeight:500,color:"var(--text)",marginBottom:12,lineHeight:1.6,whiteSpace:"pre-line"}}>{qx.q}</div>
+                      {qx.diagram && <div style={{marginBottom:12}}>{qx.diagram}</div>}
+                      <div style={{fontSize:12,color:"var(--green)",fontWeight:600,fontFamily:"var(--mono)",marginBottom:4}}>
+                        ✓ {qx.opts[qx.ans]}
+                      </div>
+                      {isWrong && (
+                        <div style={{fontSize:12,color:"var(--red)",fontWeight:600,fontFamily:"var(--mono)"}}>
+                          ✗ {qx.opts[m[chosen]]}
+                        </div>
+                      )}
+                      {isSkipped && (
+                        <div style={{fontSize:12,color:"var(--amber)",fontWeight:600,fontFamily:"var(--mono)"}}>
+                          — SKIPPED
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                );
+              })}
+            </div>
+          </main>
+        </div>
+      </>
+    );
+  }
+
+  // ── QUIZ SCREEN ───────────────────────────────────────────────────────────
+  if (!q) return null;
+  const chosenDisplay = answers[q.id];
+  const getOptState = (displayIdx) => {
+    const realIdx = map[displayIdx];
+    if (!submitted) return chosenDisplay === displayIdx ? "selected" : "";
+    if (realIdx === q.ans) return "correct";
+    if (chosenDisplay === displayIdx && realIdx !== q.ans) return "wrong";
+    return "";
+  };
+  const progressPct = ((current + 1) / questions.length) * 100;
+
+  const optStyle = (state) => {
+    const styles = {
+      selected: {border:"1.5px solid var(--red)",bg:"var(--red-soft)",letterBg:"var(--red)",letterColor:"white",textColor:"var(--red)",textWeight:600},
+      correct: {border:"1.5px solid var(--green)",bg:"var(--green-soft)",letterBg:"var(--green)",letterColor:"white",textColor:"var(--green)",textWeight:600},
+      wrong: {border:"1.5px solid var(--red)",bg:"var(--red-soft)",letterBg:"var(--red)",letterColor:"white",textColor:"var(--red)",textWeight:600},
+      "": {border:"1.5px solid var(--border)",bg:"var(--surface)",letterBg:"#F5F5F5",letterColor:"#AAA",textColor:"var(--text)",textWeight:400},
+    };
+    return styles[state] || styles[""];
+  };
+
+  return (
+    <>
+      <FontInjector/>
+      <div style={{minHeight:"100vh",background:"var(--bg)"}}>
+        {/* Header */}
+        <header style={{borderBottom:"1px solid var(--border)",background:"var(--bg)",position:"sticky",top:0,zIndex:20}}>
+          <div style={{maxWidth:640,margin:"0 auto",padding:"16px 24px"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
+                <span style={{fontSize:11,fontWeight:600,letterSpacing:1.5,fontFamily:"var(--mono)",color:"#888"}}>{q.unitName}</span>
+              </div>
+              <span style={{fontFamily:"var(--mono)",fontSize:13,fontWeight:700,color:"var(--text)"}}>
+                {String(current+1).padStart(2,"0")}<span style={{color:"#CCC"}}>/{String(questions.length).padStart(2,"0")}</span>
+              </span>
+            </div>
+            <div style={{height:2,background:"#E5E5E5",borderRadius:0,overflow:"hidden"}}>
+              <div style={{height:"100%",width:`${progressPct}%`,background:"var(--red)",transition:"width .25s ease"}}/>
+            </div>
+          </div>
+        </header>
+
+        <main style={{maxWidth:640,margin:"0 auto",padding:"24px 24px 120px"}}>
+          {/* Dot nav */}
+          <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:28}}>
+            {questions.map((qx, i) => {
+              const m2 = optMapping[qx.id] || [0,1,2,3];
+              const a2 = answers[qx.id];
+              const isCorrect = submitted && a2 !== undefined && m2[a2] === qx.ans;
+              const isWrong = submitted && a2 !== undefined && m2[a2] !== qx.ans;
+              let bg = "#ECECEC", fg = "#BBB";
+              if (i === current) { bg = "var(--red)"; fg = "white"; }
+              else if (isCorrect) { bg = "var(--green)"; fg = "white"; }
+              else if (isWrong) { bg = "var(--red)"; fg = "white"; }
+              else if (a2 !== undefined) { bg = "#CCC"; fg = "white"; }
+              return (
+                <button key={qx.id} onClick={() => setCurrent(i)} style={{
+                  width:26,height:26,borderRadius:1,border:"none",background:bg,
+                  color:fg,cursor:"pointer",fontSize:9,fontWeight:700,fontFamily:"var(--mono)",
+                  transition:"all .1s",padding:0,
+                }}>{i+1}</button>
+              );
+            })}
+          </div>
+
+          {/* Question */}
+          <div style={{
+            opacity: fade ? 1 : 0,transform: fade ? "translateY(0)" : "translateY(4px)",
+            transition:"opacity .1s ease, transform .1s ease",
+          }}>
+            <div style={{...labelStyle,marginBottom:16}}>
+              QUESTION {String(current+1).padStart(2,"0")}
+            </div>
+
+            <div style={{fontSize:17,fontWeight:600,lineHeight:1.7,color:"var(--text)",marginBottom:20,letterSpacing:-0.2,whiteSpace:"pre-line"}}>
+              {q.q}
+            </div>
+
+            {q.diagram && <div style={{marginBottom:20}}>{q.diagram}</div>}
+
+            {/* Options */}
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              {[0, 1, 2, 3].map((displayIdx) => {
+                const opt = q.opts[map[displayIdx]];
+                const state = getOptState(displayIdx);
+                const s = optStyle(state);
+                const disabled = submitted;
+                return (
+                  <button key={displayIdx} onClick={() => selectAnswer(q.id, displayIdx)} disabled={disabled} style={{
+                    padding:"14px 16px",borderRadius:2,border: s.border,background:s.bg,
+                    cursor: disabled ? "default" : "pointer",textAlign:"left",fontSize:14,
+                    display:"flex",alignItems:"center",gap:14,transition:"all .12s",
+                    fontWeight: s.textWeight,color:s.textColor,width:"100%",outline:"none",
+                    fontFamily:"var(--sans)",
+                  }}
+                    onMouseEnter={e => { if (!disabled && state === "") { e.currentTarget.style.borderColor = "#CCC"; e.currentTarget.style.background = "#FAFAFA"; }}}
+                    onMouseLeave={e => { if (!disabled && state === "") { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "var(--surface)"; }}}
+                  >
+                    <span style={{
+                      width:26,height:26,borderRadius:2,background:s.letterBg,color:s.letterColor,
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      fontSize:10,fontWeight:700,flexShrink:0,fontFamily:"var(--mono)",transition:"all .12s",
+                    }}>
+                      {state === "correct" ? "✓" : state === "wrong" ? "✗" : LETTERS[displayIdx]}
+                    </span>
+                    <span>{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </main>
+
+        {/* Bottom Nav */}
+        <div style={{
+          position:"fixed",bottom:0,left:0,right:0,
+          background:"var(--bg)",borderTop:"1px solid var(--border)",
+          padding:"14px 24px",zIndex:20,
+        }}>
+          <div style={{
+            maxWidth:640,margin:"0 auto",
+            display:"flex",justifyContent:"space-between",alignItems:"center",
+          }}>
+            {/* Prev */}
+            <button onClick={goPrev} disabled={current === 0} style={{
+              padding:"10px 20px",borderRadius:2,
+              border:"1.5px solid var(--border)",
+              background: current === 0 ? "var(--bg)" : "var(--surface)",
+              cursor: current === 0 ? "not-allowed" : "pointer",
+              fontSize:11,fontWeight:600,
+              color: current === 0 ? "#DDD" : "#666",
+              fontFamily:"var(--mono)",letterSpacing:1,
+            }}>
+              ← PREV
+            </button>
+
+            {/* Right side */}
+            <div style={{display:"flex",gap:10}}>
+              {!submitted && current < questions.length - 1 && (
+                <button onClick={goNext} style={{
+                  padding:"10px 20px",borderRadius:2,
+                  border:"1.5px solid var(--border)",background:"var(--surface)",
+                  cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",
+                  fontFamily:"var(--mono)",letterSpacing:1,
+                }}>
+                  NEXT →
+                </button>
+              )}
+
+              {/* BUG FIX: allAnswered now references the variable defined above */}
+              {!submitted && allAnswered && (
+                <button onClick={submitQuiz} style={{
+                  padding:"10px 24px",borderRadius:2,border:"none",
+                  background:"var(--red)",color:"white",
+                  fontSize:11,fontWeight:700,cursor:"pointer",
+                  fontFamily:"var(--mono)",letterSpacing:1,
+                }}>
+                  SUBMIT
+                </button>
+              )}
+
+              {submitted && (
+                <button onClick={() => setScreen("result")} style={{
+                  padding:"10px 24px",borderRadius:2,
+                  border:"1.5px solid var(--red)",background:"transparent",
+                  color:"var(--red)",fontSize:11,fontWeight:700,cursor:"pointer",
+                  fontFamily:"var(--mono)",letterSpacing:1,
+                }}>
+                  VIEW RESULTS →
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
