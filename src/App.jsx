@@ -56,251 +56,156 @@ const DotGrid = ({ opacity = 0.3 }) => (
 
 // Diagrams are kept but with eslint-disable comments to fix the build
 /* eslint-disable no-unused-vars */
-const TowerDepressionDiagram = () => (
-  <svg viewBox="0 0 260 160" width="220" height="130" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="30" y="20" width="18" height="100" fill="#0A0A0A"/>
-    <line x1="48" y1="120" x2="200" y2="120" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="48" y1="20" x2="200" y2="120" stroke="var(--red)" strokeWidth="1.5" strokeDasharray="5,3"/>
-    <text x="100" y="115" fontSize="11" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">80m</text>
-    <text x="35" y="75" fontSize="10" fill="#0A0A0A" transform="rotate(-90,38,75)" fontFamily="var(--mono)">h</text>
-    <text x="130" y="75" fontSize="11" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">60°</text>
-    <polygon points="48,120 80,120 65,100" fill="none" stroke="var(--red)" strokeWidth="1"/>
-    <text x="10" y="130" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">D</text>
-    <text x="25" y="18" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">A</text>
-    <text x="195" y="133" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">B/C</text>
-  </svg>
+// ── Data tables / charts for the new question bank (23TPS05 Set 01) ───────────
+const tblWrap = {margin:"16px 0",border:"1px solid var(--border)",borderRadius:2,background:"var(--surface)",overflowX:"auto"};
+const tblBase = {width:"100%",borderCollapse:"collapse",fontFamily:"var(--mono)",fontSize:12};
+const th = {padding:"8px 10px",borderBottom:"1px solid var(--border)",textAlign:"center",fontWeight:700,color:"var(--text)",background:"#F5F5F5",whiteSpace:"nowrap"};
+const td = {padding:"8px 10px",borderBottom:"1px solid var(--border)",textAlign:"center",color:"#444",whiteSpace:"nowrap"};
+
+const CompanyTable = () => (
+  <div style={tblWrap}>
+    <div style={{padding:"10px 12px",fontSize:12,color:"#888",lineHeight:1.5,borderBottom:"1px solid var(--border)"}}>
+      Revenue, expenses and profit/loss (in $ Millions) of five companies for 2025.
+    </div>
+    <table style={tblBase}>
+      <thead><tr>{["Company","Revenue ($M)","Expenses ($M)","Profit / Loss ($M)","Employees"].map(h => <th key={h} style={th}>{h}</th>)}</tr></thead>
+      <tbody>
+        {[["A",120,85,"35",450],["B",200,160,"40",800],["C",95,110,"-15 (Loss)",300],["D",150,105,"45",500],["E",310,220,"90","1,200"]].map(r => (
+          <tr key={r[0]}>
+            <td style={{...td,fontWeight:700,color:"var(--text)"}}>Company {r[0]}</td>
+            <td style={td}>{r[1]}</td><td style={td}>{r[2]}</td>
+            <td style={{...td,color:String(r[3]).startsWith("-")?"var(--red)":"#444"}}>{r[3]}</td>
+            <td style={td}>{r[4]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
 
-const LighthouseDiagram = () => (
-  <svg viewBox="0 0 280 170" width="240" height="145" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="120" y="30" width="14" height="110" fill="#0A0A0A"/>
-    <line x1="10" y1="140" x2="255" y2="140" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="127" y1="30" x2="10" y2="140" stroke="var(--red)" strokeWidth="1.5" strokeDasharray="5,3"/>
-    <line x1="127" y1="30" x2="255" y2="140" stroke="#888" strokeWidth="1.5" strokeDasharray="5,3"/>
-    <text x="118" y="88" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">100m</text>
-    <text x="25" y="135" fontSize="10" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">30°</text>
-    <text x="220" y="135" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">45°</text>
-    <text x="5" y="150" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">C</text>
-    <text x="118" y="28" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">B</text>
-    <text x="250" y="150" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">D</text>
-    <text x="120" y="152" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">A</text>
-  </svg>
+const VotesPieDiagram = () => {
+  const cx = 130, cy = 120, r = 90;
+  const slices = [
+    {name:"Yasin",deg:80,color:"#4F81BD"},
+    {name:"Sivaraman",deg:100,color:"#C0504D"},
+    {name:"Vishwanath",deg:120,color:"#9BBB59"},
+    {name:"Paramjeet",deg:60,color:"#8064A2"},
+  ];
+  let start = 0;
+  const pt = (deg, rad) => {
+    const a = (deg - 90) * Math.PI / 180;
+    return [cx + rad * Math.cos(a), cy + rad * Math.sin(a)];
+  };
+  return (
+    <div style={{margin:"16px 0",border:"1px solid var(--border)",borderRadius:2,background:"var(--surface)",padding:"12px 8px"}}>
+      <div style={{fontSize:12,color:"#888",lineHeight:1.5,padding:"0 8px 8px"}}>
+        Votes obtained by four students in a school leadership election. Total valid votes polled: 720.
+      </div>
+      <svg viewBox="0 0 260 240" width="100%" style={{display:"block",maxWidth:300,margin:"0 auto"}}>
+        {slices.map(s => {
+          const end = start + s.deg;
+          const [x1,y1] = pt(start,r), [x2,y2] = pt(end,r);
+          const [lx,ly] = pt(start + s.deg/2, r*0.62);
+          const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${s.deg>180?1:0} 1 ${x2},${y2} Z`;
+          start = end;
+          return (
+            <g key={s.name}>
+              <path d={d} fill={s.color} stroke="white" strokeWidth="1"/>
+              <text x={lx} y={ly-2} textAnchor="middle" fontSize="9" fontWeight="700" fill="white" fontFamily="var(--mono)">{s.name}</text>
+              <text x={lx} y={ly+10} textAnchor="middle" fontSize="9" fill="white" fontFamily="var(--mono)">{s.deg}°</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
+const SubscriptionTable = () => (
+  <div style={tblWrap}>
+    <div style={{padding:"10px 12px",fontSize:12,color:"#888",lineHeight:1.5,borderBottom:"1px solid var(--border)"}}>
+      Subscription of different schemes of a Mutual Fund Company over the months (₹ in crores).
+    </div>
+    <table style={tblBase}>
+      <thead><tr>{["Month","V","W","X","Y","Z","Total"].map(h => <th key={h} style={th}>{h}</th>)}</tr></thead>
+      <tbody>
+        {[["September",200,70,30,290,10,600],["October",120,130,70,150,290,760],["November",45,35,25,125,160,390],["December",160,110,40,115,130,555],["January",80,90,70,100,140,480],["February",130,150,30,40,390,740]].map(r => (
+          <tr key={r[0]}>
+            <td style={{...td,fontWeight:700,color:"var(--text)",textAlign:"left"}}>{r[0]}</td>
+            {r.slice(1).map((v,i) => <td key={i} style={{...td,fontWeight:i===5?700:400,color:i===5?"var(--text)":"#444"}}>{v}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
 
-const TwoAngleTowerDiagram = () => (
-  <svg viewBox="0 0 260 170" width="220" height="145" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="170" y="20" width="14" height="120" fill="#0A0A0A"/>
-    <line x1="10" y1="140" x2="230" y2="140" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="177" y1="20" x2="10" y2="140" stroke="var(--red)" strokeWidth="1.5"/>
-    <line x1="177" y1="20" x2="110" y2="140" stroke="#888" strokeWidth="1.5"/>
-    <text x="25" y="135" fontSize="10" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">30°</text>
-    <text x="113" y="135" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">60°</text>
-    <text x="50" y="148" fontSize="9" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">← 20m →</text>
-    <text x="178" y="88" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)">h</text>
-    <text x="5" y="150" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">A</text>
-    <text x="100" y="150" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">D</text>
-    <text x="185" y="150" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">B</text>
-    <text x="170" y="18" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">C</text>
-  </svg>
-);
-
-const LadderWallDiagram = () => (
-  <svg viewBox="0 0 200 180" width="175" height="155" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="60" y="10" width="10" height="150" fill="#0A0A0A"/>
-    <line x1="10" y1="160" x2="180" y2="160" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="105" y1="160" x2="65" y2="40" stroke="var(--red)" strokeWidth="2"/>
-    <text x="55" y="130" fontSize="10" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">60°</text>
-    <text x="105" y="175" fontSize="9" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">4.6m</text>
-    <text x="55" y="18" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">B</text>
-    <text x="100" y="158" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">C</text>
-    <text x="60" y="158" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">A</text>
-  </svg>
-);
-
-const ShadowAngleDiagram = () => (
-  <svg viewBox="0 0 220 160" width="185" height="135" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="100" y="20" width="12" height="110" fill="#0A0A0A"/>
-    <line x1="10" y1="130" x2="210" y2="130" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="106" y1="20" x2="10" y2="130" stroke="#888" strokeWidth="1.5" strokeDasharray="4,3"/>
-    <text x="40" y="125" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">θ</text>
-    <text x="40" y="142" fontSize="9" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">shadow = √3 × h</text>
-    <text x="103" y="88" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)">h</text>
-    <text x="99" y="18" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">B</text>
-    <text x="5" y="140" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">C</text>
-    <text x="100" y="142" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">A</text>
-  </svg>
-);
-
-const TowerHeightHDiagram = () => (
-  <svg viewBox="0 0 210 170" width="180" height="145" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2,padding:8}}>
-    <rect x="15" y="20" width="12" height="120" fill="#0A0A0A"/>
-    <line x1="10" y1="140" x2="200" y2="140" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <line x1="21" y1="20" x2="190" y2="140" stroke="var(--red)" strokeWidth="1.5"/>
-    <text x="25" y="18" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">R</text>
-    <text x="10" y="152" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">P</text>
-    <text x="185" y="152" fontSize="9" fill="#888" fontFamily="var(--mono)" fontWeight="700">Q</text>
-    <text x="17" y="88" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)">h</text>
-    <text x="90" y="152" fontSize="9" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">h</text>
-    <text x="155" y="135" fontSize="10" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">θ</text>
-  </svg>
-);
-
-const FamilyTreeDiagram = () => (
-  <svg viewBox="0 0 320 220" width="280" height="190" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2}}>
-    <rect x="20" y="20" width="50" height="28" rx="1" fill="var(--surface)" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <text x="45" y="38" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0A0A0A" fontFamily="var(--mono)">Q(+)</text>
-    <line x1="70" y1="34" x2="130" y2="34" stroke="#CCC" strokeWidth="1" strokeDasharray="4,2"/>
-    <text x="100" y="28" fontSize="7" fill="#888" textAnchor="middle" fontFamily="var(--mono)">married</text>
-    <rect x="130" y="20" width="50" height="28" rx="1" fill="var(--surface)" stroke="var(--red)" strokeWidth="1.5"/>
-    <text x="155" y="38" textAnchor="middle" fontSize="11" fontWeight="700" fill="var(--red)" fontFamily="var(--mono)">R(-)</text>
-    <line x1="45" y1="48" x2="45" y2="100" stroke="#CCC" strokeWidth="1"/>
-    <rect x="20" y="100" width="50" height="28" rx="1" fill="var(--surface)" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <text x="45" y="118" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0A0A0A" fontFamily="var(--mono)">P(+)</text>
-    <line x1="70" y1="114" x2="130" y2="114" stroke="#CCC" strokeWidth="1" strokeDasharray="4,2"/>
-    <text x="100" y="108" fontSize="7" fill="#888" textAnchor="middle" fontFamily="var(--mono)">married</text>
-    <rect x="130" y="100" width="50" height="28" rx="1" fill="var(--surface)" stroke="var(--red)" strokeWidth="1.5"/>
-    <text x="155" y="118" textAnchor="middle" fontSize="11" fontWeight="700" fill="var(--red)" fontFamily="var(--mono)">S(-)</text>
-    <line x1="180" y1="114" x2="220" y2="114" stroke="#CCC" strokeWidth="1"/>
-    <text x="200" y="108" fontSize="7" fill="#888" textAnchor="middle" fontFamily="var(--mono)">sister</text>
-    <rect x="220" y="100" width="50" height="28" rx="1" fill="var(--surface)" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <text x="245" y="118" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0A0A0A" fontFamily="var(--mono)">T(+)</text>
-    <line x1="45" y1="128" x2="45" y2="180" stroke="#CCC" strokeWidth="1"/>
-    <rect x="20" y="180" width="50" height="28" rx="1" fill="var(--surface)" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <text x="45" y="198" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0A0A0A" fontFamily="var(--mono)">U(+)</text>
-  </svg>
-);
-
-const DirectionDiagram = () => (
-  <svg viewBox="0 0 260 280" width="220" height="240" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2}}>
-    <text x="118" y="15" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">N</text>
-    <text x="118" y="278" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">S</text>
-    <text x="5" y="148" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">W</text>
-    <text x="240" y="148" fontSize="10" fill="#888" fontFamily="var(--mono)" fontWeight="700">E</text>
-    <line x1="120" y1="80" x2="76" y2="80" stroke="#E5E5E5" strokeWidth="1" strokeDasharray="3,2"/>
-    <line x1="120" y1="80" x2="180" y2="80" stroke="#CCC" strokeWidth="1"/>
-    <text x="148" y="76" fontSize="8" fill="#888" fontFamily="var(--mono)">12m</text>
-    <line x1="120" y1="80" x2="120" y2="158" stroke="#CCC" strokeWidth="1"/>
-    <text x="122" y="95" fontSize="8" fill="#888" fontFamily="var(--mono)">5m</text>
-    <text x="122" y="128" fontSize="8" fill="#888" fontFamily="var(--mono)">13m</text>
-    <line x1="76" y1="158" x2="120" y2="158" stroke="#CCC" strokeWidth="1"/>
-    <text x="90" y="172" fontSize="8" fill="#888" fontFamily="var(--mono)">4m</text>
-    <line x1="76" y1="83" x2="76" y2="158" stroke="#CCC" strokeWidth="1"/>
-    <text x="58" y="115" fontSize="8" fill="#888" fontFamily="var(--mono)">15m</text>
-    <text x="58" y="100" fontSize="8" fill="#888" fontFamily="var(--mono)">2m</text>
-    {[["P",76,80],["J",76,103],["F",120,80],["G",120,110],["E",180,80],["L",120,158],["I",76,158]].map(([lbl,x,y])=>(
-      <g key={lbl}>
-        <circle cx={x} cy={y} r="8" fill="#0A0A0A"/>
-        <text x={x} y={y+3.5} textAnchor="middle" fontSize="8" fontWeight="700" fill="white" fontFamily="var(--mono)">{lbl}</text>
-      </g>
-    ))}
-  </svg>
-);
-
-const ClockDiagram = () => (
-  <svg viewBox="0 0 160 160" width="140" height="140" style={{display:"block",margin:"16px auto",background:"var(--surface)",borderRadius:"50%",border:"1.5px solid var(--border)"}}>
-    <circle cx="80" cy="80" r="74" fill="white" stroke="#E5E5E5" strokeWidth="1.5"/>
-    {[12,3,6,9].map((n,i)=>{
-      const angles=[270,0,90,180];
-      const rad=angles[i]*Math.PI/180;
-      return <text key={n} x={80+60*Math.cos(rad)-5} y={80+60*Math.sin(rad)+5} fontSize="13" fontWeight="700" fill="#0A0A0A" fontFamily="var(--mono)">{n}</text>;
-    })}
-    <text x="75" y="18" fontSize="10" fill="var(--red)" fontWeight="700" fontFamily="var(--mono)">N</text>
-    <text x="75" y="152" fontSize="10" fill="#888" fontFamily="var(--mono)">S</text>
-    <text x="8" y="85" fontSize="10" fill="#888" fontFamily="var(--mono)">W</text>
-    <text x="142" y="85" fontSize="10" fill="#888" fontFamily="var(--mono)">E</text>
-    <line x1="80" y1="80" x2="80" y2="130" stroke="#0A0A0A" strokeWidth="3" strokeLinecap="square"/>
-    <line x1="80" y1="80" x2="130" y2="80" stroke="var(--red)" strokeWidth="2" strokeLinecap="square"/>
-    <circle cx="80" cy="80" r="3" fill="#0A0A0A"/>
-  </svg>
-);
-
-const JayantWalkDiagram = () => (
-  <svg viewBox="0 0 220 200" width="190" height="175" style={{display:"block",margin:"16px auto",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:2}}>
-    <text x="175" y="20" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">X</text>
-    <line x1="170" y1="25" x2="50" y2="25" stroke="#0A0A0A" strokeWidth="1.5"/>
-    <text x="100" y="20" fontSize="8" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">15m W</text>
-    <text x="42" y="20" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">A</text>
-    <line x1="50" y1="25" x2="50" y2="105" stroke="#888" strokeWidth="1.5"/>
-    <text x="28" y="70" fontSize="8" fill="#888" fontFamily="var(--mono)" fontWeight="700">20m S</text>
-    <text x="42" y="115" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">B</text>
-    <line x1="50" y1="105" x2="170" y2="105" stroke="#888" strokeWidth="1.5"/>
-    <text x="100" y="100" fontSize="8" fill="#888" fontFamily="var(--mono)" fontWeight="700">15m E</text>
-    <text x="172" y="115" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">C</text>
-    <line x1="170" y1="105" x2="170" y2="185" stroke="var(--red)" strokeWidth="1.5"/>
-    <text x="174" y="150" fontSize="8" fill="var(--red)" fontFamily="var(--mono)" fontWeight="700">12m S</text>
-    <text x="162" y="195" fontSize="10" fill="#0A0A0A" fontFamily="var(--mono)" fontWeight="700">D</text>
-    <line x1="170" y1="25" x2="170" y2="185" stroke="#E5E5E5" strokeWidth="1" strokeDasharray="5,3"/>
-    <text x="175" y="110" fontSize="8" fill="#888" fontFamily="var(--mono)">32m</text>
-    <text x="155" y="25" fontSize="8" fill="#888" fontFamily="var(--mono)" fontWeight="700">↑N</text>
-  </svg>
-);
 /* eslint-enable no-unused-vars */
 
 // ── Question Data ─────────────────────────────────────────────────────────────
 
 const ALL_QUESTIONS = [
-  // UNIT I – Number System, Squares, Cubes & Divisibility
-  {id:1, unit:1, unitName:"NUMBER SYSTEM", q:"What is the unit digit of 2125^23569?", opts:["5","1","9","3"], ans:0},
-  {id:2, unit:1, unitName:"NUMBER SYSTEM", q:"Find the face value of 8 and place value of 7 in 9785.", opts:["8, 700","8, 70","8, 7000","8, 7"], ans:0},
-  {id:3, unit:1, unitName:"NUMBER SYSTEM", q:"If the side of a cube is 24 cm, what will be its volume?", opts:["13824 cm³","13824 cm²","13824 cm","1382 cm³"], ans:0},
-  {id:4, unit:1, unitName:"NUMBER SYSTEM", q:"If the side of a cube is 15 cm, what will be its volume?", opts:["3375 cm³","3375 cm²","3375 cm","337 cm³"], ans:0},
-  {id:5, unit:1, unitName:"NUMBER SYSTEM", q:"Find the remainder when 81^56 is divided by 82.", opts:["1","81","-1","0"], ans:0},
-  {id:6, unit:1, unitName:"NUMBER SYSTEM", q:"Find the cube root value of 42875.", opts:["35","25","45","55"], ans:0},
-  {id:7, unit:1, unitName:"NUMBER SYSTEM", q:"What is the value to be substituted for x in 111x so that the number is divisible by 3?", opts:["3","6","9","0"], ans:0},
-  {id:8, unit:1, unitName:"NUMBER SYSTEM", q:"Simplify: (7.456³ - 5.321³) ÷ (7.456² + 5.321² + 7.456×5.321)", opts:["2.135","3.135","1.135","4.135"], ans:0},
-  {id:9, unit:1, unitName:"NUMBER SYSTEM", q:"What is the unit digit of 2126^758237?", opts:["6","1","4","9"], ans:0},
-  {id:10, unit:1, unitName:"NUMBER SYSTEM", q:"Find the sum of place value of 9 and place value of 8 in 58694.", opts:["1010","110","1001","1000"], ans:0},
-  {id:11, unit:1, unitName:"NUMBER SYSTEM", q:"Cara has 7056 marbles that she is using to make a square formation. How many marbles should be in each row?", opts:["84","78","92","76"], ans:0},
-  {id:12, unit:1, unitName:"NUMBER SYSTEM", q:"If area of square is 1024 cm², find the length of side.", opts:["32 cm","22 cm","42 cm","28 cm"], ans:0},
+  // ═══ 23TPS05 – QUANTITATIVE APTITUDE & LOGICAL REASONING III (SET 01) ═══
 
-  // UNIT II – Arithmetic, Percentage, Ratio & Proportion
-  {id:13, unit:2, unitName:"ARITHMETIC", q:"A student calculates the arithmetic mean of the following 5 numbers: 10, 15, 20, 25 and x. He found the mean is 15. Find the value of x.", opts:["5","10","15","20"], ans:0},
-  {id:14, unit:2, unitName:"ARITHMETIC", q:"Solve: ∛216 - √x = 2", opts:["16","8","4","36"], ans:0},
-  {id:15, unit:2, unitName:"ARITHMETIC", q:"At present, the ratio between the ages of Arun and Deepak is 4:3. After 6 years, Arun's age will be 26 years. What is the age of Deepak at present?", opts:["15 years","12 years","18 years","20 years"], ans:0},
-  {id:16, unit:2, unitName:"ARITHMETIC", q:"Simplify: 80 ÷ 5 + 40 of 70 ÷ 9 = ?", opts:["1696","1669","1966","1600"], ans:0},
-  {id:17, unit:2, unitName:"ARITHMETIC", q:"25% of 320 + X% of 500 = 50% of 420. Find X.", opts:["26","20","30","24"], ans:0},
-  {id:18, unit:2, unitName:"ARITHMETIC", q:"What is the value to be substituted for x in 56x2 so that the number is divisible by 4?", opts:["1","2","3","4"], ans:0},
-  {id:19, unit:2, unitName:"ARITHMETIC", q:"Simplify: 0.63÷0.63 + 0.37÷0.37 + 2×0.63×0.37", opts:["1","2","3","0.5"], ans:0},
-  {id:20, unit:2, unitName:"ARITHMETIC", q:"A grocer mixes two varieties of rice costing ₹15 per kg and ₹25 per kg in the ratio 1:1. What is the price per kg of the resulting mixture?", opts:["₹20","₹18","₹22","₹25"], ans:0},
-  {id:21, unit:2, unitName:"ARITHMETIC", q:"What is the unit digit of 616^897?", opts:["6","1","4","9"], ans:0},
-  {id:22, unit:2, unitName:"ARITHMETIC", q:"Find the sum of place value of 1 and place value of 7 in 431570.", opts:["1070","1700","1007","7001"], ans:0},
-  {id:23, unit:2, unitName:"ARITHMETIC", q:"Simplify: 0.35÷0.35 + 0.65÷0.65 + 2×0.35×0.65", opts:["1","2","3","0.5"], ans:0},
-  {id:24, unit:2, unitName:"ARITHMETIC", q:"Solve: [30 - 2(5 + 3)] + 7 = ?", opts:["10.5","21","14","7"], ans:0},
+  // UNIT I – Data Interpretation & Clocks
+  {id:1, unit:1, unitName:"DATA & CLOCKS", q:"What is the ratio of the total revenue of Company B and Company E combined to their total expenses combined?", opts:["51 : 38","3 : 2","17 : 13","5 : 4"], ans:0, diagram:<CompanyTable/>},
+  {id:2, unit:1, unitName:"DATA & CLOCKS", q:"Which company recorded the highest profit margin percentage (Profit / Revenue × 100)?", opts:["Company D","Company A","Company B","Company E"], ans:0, diagram:<CompanyTable/>},
+  {id:3, unit:1, unitName:"DATA & CLOCKS", q:"What was the difference between the number of votes obtained by Yasin and Vishwanath?", opts:["80","30","40","20"], ans:0, diagram:<VotesPieDiagram/>},
+  {id:4, unit:1, unitName:"DATA & CLOCKS", q:"What is the difference in the subscription of scheme V between December and February?", opts:["₹30 crores","₹80 lacs","₹240 crores","₹240 lacs"], ans:0, diagram:<SubscriptionTable/>},
+  {id:5, unit:1, unitName:"DATA & CLOCKS", q:"Find the total difference between September and November.", opts:["210 cr","160 cr","45 cr","140 cr"], ans:0, diagram:<SubscriptionTable/>},
+  {id:6, unit:1, unitName:"DATA & CLOCKS", q:"What is the angle between the hour hand and the minute hand at 3:30?", opts:["75°","65°","95°","105°"], ans:0},
+  {id:7, unit:1, unitName:"DATA & CLOCKS", q:"At what time between 4 o'clock and 5 o'clock will the hands of a clock coincide?", opts:["21 9/11 minutes past 4","21 10/11 minutes past 4","21 2/11 minutes past 4","23 9/11 minutes past 4"], ans:0},
+  {id:8, unit:1, unitName:"DATA & CLOCKS", q:"How many times in a day (24 hours) do the hands of a clock form a straight line (0° or 180°)?", opts:["44","48","24","22"], ans:0},
+  {id:9, unit:1, unitName:"DATA & CLOCKS", q:"Find the reflex angle between the hands of a clock at 10:25.", opts:["197.5°","165.5°","105°","175°"], ans:0},
+  {id:10, unit:1, unitName:"DATA & CLOCKS", q:"When the hands of a clock are at 180°, they are ________ spaces apart.", opts:["30 minutes","15 minutes","35 minutes","60 minutes"], ans:0},
 
-  // UNIT III – Algebraic Identities & BODMAS
-  {id:25, unit:3, unitName:"ALGEBRA & BODMAS", q:"Solve: 90 - [30 - {12 × (6 - 3 - 1)}]", opts:["84","96","74","64"], ans:0},
-  {id:26, unit:3, unitName:"ALGEBRA & BODMAS", q:"Simplify: (0.8)³ + (0.2)³ + 3×0.8×0.2(0.8+0.2)", opts:["1","2","3","0.5"], ans:0},
-  {id:27, unit:3, unitName:"ALGEBRA & BODMAS", q:"Simplify: 0.35×0.35 + 0.65×0.65 + 2×0.35×0.65", opts:["1","2","3","0.5"], ans:0},
-  {id:28, unit:3, unitName:"ALGEBRA & BODMAS", q:"If a:b = 8:5 and a:c = 8:7, find a:b:c.", opts:["8:5:7","5:8:7","8:7:5","7:5:8"], ans:0},
-  {id:29, unit:3, unitName:"ALGEBRA & BODMAS", q:"Divide ₹672 in the ratio 7:5.", opts:["₹392 and ₹280","₹280 and ₹392","₹300 and ₹372","₹350 and ₹322"], ans:0},
-  {id:30, unit:3, unitName:"ALGEBRA & BODMAS", q:"Solve: 78 - [24 - {16 × (5 - 4 - 1)}]", opts:["54","64","44","74"], ans:0},
-  {id:31, unit:3, unitName:"ALGEBRA & BODMAS", q:"Simplify: (0.8)³ + (0.2)³ + 3×0.8×0.2(0.8+0.2)", opts:["1","2","3","0.5"], ans:0},
-  {id:32, unit:3, unitName:"ALGEBRA & BODMAS", q:"A bag contains 50 paise, 20 paise, and 10 paise coins in the ratio 3:5:7, amounting to ₹96. Find the number of 20 paise coins.", opts:["150","100","200","120"], ans:0},
-  {id:33, unit:3, unitName:"ALGEBRA & BODMAS", q:"Find the mean proportion of 49 and 16.", opts:["28","32","24","36"], ans:0},
+  // UNIT II – Calendar & Series
+  {id:11, unit:2, unitName:"CALENDAR & SERIES", q:"If 15th August 2011 was a Monday, what day of the week was 15th August 2012?", opts:["Wednesday","Monday","Tuesday","Thursday"], ans:0},
+  {id:12, unit:2, unitName:"CALENDAR & SERIES", q:"The odd days of 646 days is ________.", opts:["2 days","3 days","5 days","4 days"], ans:0},
+  {id:13, unit:2, unitName:"CALENDAR & SERIES", q:"Which of these days cannot be the last day of a century?", opts:["Saturday","Monday","Sunday","Friday"], ans:0},
+  {id:14, unit:2, unitName:"CALENDAR & SERIES", q:"Today is Tuesday. What day of the week will it be after 62 days?", opts:["Monday","Sunday","Tuesday","Wednesday"], ans:0},
+  {id:15, unit:2, unitName:"CALENDAR & SERIES", q:"Which of the following century years is NOT a leap year?", opts:["2100","1600","2000","2400"], ans:0},
+  {id:16, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing number in the series: 4, 11, 25, 53, 109, ?", opts:["221","217","219","225"], ans:0},
+  {id:17, unit:2, unitName:"CALENDAR & SERIES", q:"What comes next in the sequence: 2, 3, 10, 39, 172, ?", opts:["885","785","865","845"], ans:0},
+  {id:18, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term: 3, 7, 16, 32, 57, ?", opts:["93","85","92","98"], ans:0},
+  {id:19, unit:2, unitName:"CALENDAR & SERIES", q:"Find the odd number from the given options: 35, 49, 63, 81, 91", opts:["81","35","49","63"], ans:0},
+  {id:20, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term of the series: 10, 12, 22, 34, 56, 90, ?", opts:["146","188","160","100"], ans:0},
 
-  // UNIT IV – Ratio, Average & Alligation
-  {id:34, unit:4, unitName:"RATIO & AVERAGE", q:"Find the mean proportion of 64 and 16.", opts:["32","28","24","36"], ans:0},
-  {id:35, unit:4, unitName:"RATIO & AVERAGE", q:"A dishonest shopkeeper mixed cheaper quality rice, priced at ₹12/kg with good quality rice, priced at ₹25/kg, and sold the mixture at ₹35/kg. Find the ratio in which he mixes the two qualities of rice.", opts:["23:2","2:23","10:25","25:12"], ans:0},
-  {id:36, unit:4, unitName:"RATIO & AVERAGE", q:"If a:b=2:3, b:c=3:7, c:d=1:5. Find a:b:c:d.", opts:["2:3:7:35","2:3:7:5","3:7:35:2","7:35:2:3"], ans:0},
-  {id:37, unit:4, unitName:"RATIO & AVERAGE", q:"A container contains 40 litres of milk. From this container 4 litres of milk was taken out and replaced by water. This process was repeated further two times. How much milk is now contained by the container?", opts:["29.16 litres","30 litres","28 litres","32 litres"], ans:0},
-  {id:38, unit:4, unitName:"RATIO & AVERAGE", q:"Find the average of first 421 even numbers.", opts:["422","421","420","400"], ans:0},
-  {id:39, unit:4, unitName:"RATIO & AVERAGE", q:"What is the formula to find the average of first 'n' even numbers?", opts:["n+1","n-1","n","2n"], ans:0},
-  {id:40, unit:4, unitName:"RATIO & AVERAGE", q:"Find the average of first 257 odd numbers.", opts:["257","256","258","255"], ans:0},
-  {id:41, unit:4, unitName:"RATIO & AVERAGE", q:"At present, the ratio between the ages of Arun and Deepak is 4:3. After 6 years, Arun's age will be 26 years. What is the age of Deepak at present?", opts:["15 years","12 years","18 years","20 years"], ans:0},
-  {id:42, unit:4, unitName:"RATIO & AVERAGE", q:"Find the average of first 849 even numbers.", opts:["850","849","848","840"], ans:0},
-  {id:43, unit:4, unitName:"RATIO & AVERAGE", q:"Which of the following is the same as Chemistry, Physics, and Biology?", opts:["Science","Mathematics","English","History"], ans:0},
+  // UNIT III – Simple & Compound Interest
+  {id:21, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the time period for which ₹6,000 amounts to ₹12,000 at 20% p.a. simple interest?", opts:["5 years","2 years","3 years","4 years"], ans:0},
+  {id:22, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹400","₹490","₹500","₹450"], ans:0},
+  {id:23, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"₹7,000 is invested at 6% per annum for 2 years. Find the total amount.", opts:["₹7,840","₹7,800","₹8,840","₹7,700"], ans:0},
+  {id:24, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹1,500 at 10% per annum for 4 years.", opts:["₹600","₹650","₹660","₹610"], ans:0},
+  {id:25, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"A sum of ₹8,000 earns ₹1,200 as simple interest in 3 years. Find the rate of interest.", opts:["5%","6%","7%","10%"], ans:0},
+  {id:26, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the formula to find Compound Interest (compounded annually)?", opts:["CI = P(1 + R/100)ⁿ − P","CI = P(1 + R/1000)ⁿ − P","CI = P(1 + 2R/100)ⁿ − P","CI = P(1 + R/10)ⁿ − P"], ans:0},
+  {id:27, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹2,000 at 5% per annum for 2 years, compounded annually.", opts:["₹2,205","₹2,105","₹2,005","₹2,200"], ans:0},
+  {id:28, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹5,000 at 10% per annum for 2 years.", opts:["₹1,050","₹1,000","₹1,010","₹1,150"], ans:0},
+  {id:29, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹1,500 at 10% per annum for 2 years (compounded annually).", opts:["₹1,815","₹1,810","₹1,805","₹1,915"], ans:0},
+  {id:30, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹416","₹412","₹411","₹410"], ans:0},
 
-  // UNIT V – Logical Reasoning, Images & Quantitative Aptitude
-  {id:44, unit:5, unitName:"LOGICAL REASONING", q:"The total daily salary of the writers in a company is ₹72,000. The average daily salary of a writer is ₹1,200. Find the number of writers in the company.", opts:["60","50","70","80"], ans:0},
-  {id:45, unit:5, unitName:"LOGICAL REASONING", q:"Choose the alternative which closely resembles the water-image of the given combination: A1M3b", opts:["VW3P","VW3P","VW3P","VWEP"], ans:0},
-  {id:46, unit:5, unitName:"LOGICAL REASONING", q:"Determine the water image of the following: monday", opts:["yadnom","yebnom","lequow","wouqsa"], ans:0},
-  {id:47, unit:5, unitName:"LOGICAL REASONING", q:"A dishonest shopkeeper mixed cheaper quality rice, priced at ₹10/kg with good quality rice, priced at ₹25/kg, and sold the mixture at ₹35/kg. Find the ratio in which he mixes the two qualities of rice.", opts:["4:1","1:4","3:2","2:3"], ans:0},
-  {id:48, unit:5, unitName:"LOGICAL REASONING", q:"If number of rows is equal to number of columns in auditorium, find the number of chairs if it has 45 columns.", opts:["2025","2024","2026","2040"], ans:0},
-  {id:49, unit:5, unitName:"LOGICAL REASONING", q:"If number of rows is equal to number of columns in auditorium, find the number of chairs if it has 67 columns.", opts:["4489","4488","4490","4470"], ans:0},
-  {id:50, unit:5, unitName:"LOGICAL REASONING", q:"If number of rows is equal to number of columns in auditorium, find the number of chairs if it has 93 columns.", opts:["8649","8648","8650","8630"], ans:0},
-  {id:51, unit:5, unitName:"LOGICAL REASONING", q:"Find the value of: 40 - [20 - {14 - (16 - 6×4 - 2)}]", opts:["44","34","54","64"], ans:0},
-  {id:52, unit:5, unitName:"LOGICAL REASONING", q:"If area of square is 7056 cm², find the length of side.", opts:["52 cm","54 cm","56 cm","48 cm"], ans:0},
-  {id:53, unit:5, unitName:"LOGICAL REASONING", q:"If the side of a cube is 15 cm, what will be its volume?", opts:["3375 cm³","3375 cm²","3375 cm","337 cm³"], ans:0}
+  // UNIT IV – Course of Action & Syllogism
+  {id:31, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A school has reported that several students are not attending classes regularly.\nCourse of Action:\nI. Teachers should identify the reasons for poor attendance.\nII. The school should encourage parents to monitor attendance.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
+  {id:32, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A hospital is crowded because many patients arrive at the same time.\nCourse of Action:\nI. The hospital should improve its appointment system.\nII. The hospital should refuse treatment to all new patients.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:33, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Many road accidents are occurring at a particular junction.\nCourse of Action:\nI. Traffic signals or warning signs should be considered at the junction.\nII. Traffic authorities should study the causes of the accidents.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
+  {id:34, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Students are finding it difficult to understand a particular subject.\nCourse of Action:\nI. The teacher should provide additional explanation and practice.\nII. The subject should be removed from the curriculum immediately.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:35, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A company wants to improve the skills of its employees.\nCourse of Action:\nI. The company should conduct regular training programmes.\nII. Employees should be given opportunities to learn new skills.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
+  {id:36, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: Some books are novels. All novels are interesting.\nI. Some books are interesting.\nII. All books are interesting.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:37, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All apples are fruits. Some fruits are sweet.\nI. Some apples are sweet.\nII. All apples are fruits.", opts:["Only II follows","Only I follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:38, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: No teachers are students. Some students are athletes.\nI. Some athletes are not teachers.\nII. No athletes are teachers.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:39, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All laptops are electronic devices. Some electronic devices are expensive.\nI. Some laptops are expensive.\nII. All laptops are electronic devices.", opts:["Only II follows","Only I follows","Neither I nor II follows","Both I and II follow"], ans:0},
+  {id:40, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All singers are artists. All artists are creative.\nI. All singers are creative.\nII. Some creative people are singers.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
+
+  // UNIT V – Seating Arrangement & Data Sufficiency
+  {id:41, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six friends (P, Q, R, S, T, U) are sitting in a row facing North. P and U are at the extreme ends. R is sitting to the immediate right of P. S is to the immediate left of U. Q is to the immediate left of S. Who is sitting to the immediate right of R?", opts:["T","Q","P","S"], ans:0},
+  {id:42, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Five students are sitting in a row facing South. (When facing South, 'Right' is towards the observer's Left.) A is at the extreme left end. B is to the immediate right of A. C is in the middle. D is to the right of C, and E is at the extreme right end. Who is sitting to the immediate left of C?", opts:["B","A","E","D"], ans:0},
+  {id:43, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Four people (M, N, O, P) are sitting in a line facing North. M is to the immediate left of N. O is to the immediate right of N. P is to the immediate right of O. Who is sitting at the extreme left end?", opts:["M","N","O","P"], ans:0},
+  {id:44, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Eight people P, Q, R, S, T, U, V and W sit around a circle. P is opposite T. Q is opposite U. R is opposite V. Who is opposite S?", opts:["W","Q","P","T"], ans:0},
+  {id:45, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six students A, B, C, D, E and F sit around a circular table. A is immediately right of B. C is immediately right of A. Who is immediately left of A?", opts:["B","A","E","D"], ans:0},
+  {id:46, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the perimeter of a square?\nI. Each side is 6 cm.\nII. All four sides are equal.", opts:["Statement I alone is sufficient","Statement II alone is sufficient","Both statements together are sufficient","Either statement alone is sufficient"], ans:0},
+  {id:47, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many books does Arun have?\nI. Arun has 5 more books than Bala.\nII. Bala has 10 books.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0},
+  {id:48, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of z?\nI. z − 3 = 9.\nII. z is greater than 5.", opts:["Statement I alone is sufficient","Statement II alone is sufficient","Both statements together are sufficient","Either statement alone is sufficient"], ans:0},
+  {id:49, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many students are in a class?\nI. There are 20 boys.\nII. There are 15 girls.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0},
+  {id:50, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of x/y?\nI. x = 12.\nII. y = 3.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0}
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -319,11 +224,11 @@ const LETTERS = ["A","B","C","D"];
 export default function QuizApp() {
   const UNITS = [
     {id:0, label:"ALL UNITS", short:"ALL", count: ALL_QUESTIONS.length},
-    {id:1, label:"NUMBER SYSTEM", short:"01", count: ALL_QUESTIONS.filter(q=>q.unit===1).length},
-    {id:2, label:"ARITHMETIC", short:"02", count: ALL_QUESTIONS.filter(q=>q.unit===2).length},
-    {id:3, label:"ALGEBRA & BODMAS", short:"03", count: ALL_QUESTIONS.filter(q=>q.unit===3).length},
-    {id:4, label:"RATIO & AVERAGE", short:"04", count: ALL_QUESTIONS.filter(q=>q.unit===4).length},
-    {id:5, label:"LOGICAL REASONING", short:"05", count: ALL_QUESTIONS.filter(q=>q.unit===5).length},
+    {id:1, label:"DATA & CLOCKS", short:"01", count: ALL_QUESTIONS.filter(q=>q.unit===1).length},
+    {id:2, label:"CALENDAR & SERIES", short:"02", count: ALL_QUESTIONS.filter(q=>q.unit===2).length},
+    {id:3, label:"SIMPLE & COMPOUND INTEREST", short:"03", count: ALL_QUESTIONS.filter(q=>q.unit===3).length},
+    {id:4, label:"COURSE OF ACTION & SYLLOGISM", short:"04", count: ALL_QUESTIONS.filter(q=>q.unit===4).length},
+    {id:5, label:"SEATING & DATA SUFFICIENCY", short:"05", count: ALL_QUESTIONS.filter(q=>q.unit===5).length},
   ];
 
   const [screen, setScreen] = useState("home");
@@ -335,457 +240,3 @@ export default function QuizApp() {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [optMapping, setOptMapping] = useState({});
-  const [fade, setFade] = useState(true);
-
-  const startQuiz = useCallback(() => {
-    let qs = selectedUnit === 0 ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.unit === selectedUnit);
-    if (shuffleQ) qs = shuffle(qs);
-    const mapping = {};
-    qs.forEach(q => { mapping[q.id] = shuffleOpts ? shuffle([0,1,2,3]) : [0,1,2,3]; });
-    setQuestions(qs);
-    setOptMapping(mapping);
-    setAnswers({});
-    setCurrent(0);
-    setSubmitted(false);
-    setScreen("quiz");
-  }, [selectedUnit, shuffleQ, shuffleOpts]);
-
-  const selectAnswer = (qId, displayIdx) => {
-    if (submitted) return;
-    setAnswers(prev => ({...prev, [qId]: displayIdx}));
-  };
-
-  const goNext = () => {
-    if (current < questions.length - 1) {
-      setFade(false);
-      setTimeout(() => { setCurrent(c => c + 1); setFade(true); }, 100);
-    }
-  };
-
-  const goPrev = () => {
-    if (current > 0) {
-      setFade(false);
-      setTimeout(() => { setCurrent(c => c - 1); setFade(true); }, 100);
-    }
-  };
-
-  const submitQuiz = () => {
-    setSubmitted(true);
-  };
-
-  const score = submitted ? questions.reduce((acc, q) => {
-    const map = optMapping[q.id] || [0,1,2,3];
-    const chosen = answers[q.id];
-    if (chosen === undefined) return acc;
-    return map[chosen] === q.ans ? acc + 1 : acc;
-  }, 0) : 0;
-
-  const pct = questions.length ? Math.round(score / questions.length * 100) : 0;
-  const q = questions[current];
-  const map = q ? (optMapping[q.id] || [0,1,2,3]) : [];
-
-  // BUG FIX: define allAnswered so the submit button condition works
-  const allAnswered = questions.length > 0 && Object.keys(answers).length === questions.length;
-
-  // Shared label style
-  const labelStyle = {fontSize:10,fontWeight:600,letterSpacing:2,textTransform:"uppercase",color:"#888",fontFamily:"var(--mono)"};
-
-  // ── HOME SCREEN ───────────────────────────────────────────────────────────
-  if (screen === "home") {
-    return (
-      <>
-        <FontInjector/>
-        <div style={{minHeight:"100vh",background:"var(--bg)",position:"relative"}}>
-          <DotGrid opacity={0.15}/>
-
-          <header style={{position:"relative",zIndex:2,borderBottom:"1px solid var(--border)",background:"var(--bg)"}}>
-            <div style={{maxWidth:640,margin:"0 auto",padding:"20px 24px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
-                <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>QUIZ HUB</span>
-              </div>
-              <span
-              style={{
-                fontSize: 11,
-                color: "#888",
-                fontWeight: 500,
-                fontFamily: "Noto Sans Tamil, Segoe UI, sans-serif",
-                whiteSpace: "nowrap"
-              }}
-            >
-              BY சிஜே.
-            </span>
-            </div>
-          </header>
-
-          <main style={{position:"relative",zIndex:2,maxWidth:640,margin:"0 auto",padding:"48px 24px 80px"}}>
-            {/* Hero */}
-            <div style={{marginBottom:56}}>
-              <h1 style={{fontSize:42,fontWeight:700,lineHeight:1.05,letterSpacing:-1.5,margin:"0 0 12px",color:"var(--text)"}}>
-                Aptitude<br/>
-                <span style={{color:"var(--red)"}}>Practice</span>
-              </h1>
-              <p style={{fontSize:15,color:"#888",lineHeight:1.6,maxWidth:380,fontWeight:400}}>
-                84 questions across 5 units. Select, practice, improve.
-              </p>
-            </div>
-
-            {/* Unit Selection */}
-            <div style={{marginBottom:40}}>
-              <div style={{...labelStyle,marginBottom:16,paddingLeft:1}}>SELECT UNIT</div>
-              <div style={{display:"flex",flexDirection:"column",gap:0,borderTop:"1px solid var(--border)"}}>
-                {UNITS.map(u => {
-                  const active = selectedUnit === u.id;
-                  return (
-                    <button key={u.id} onClick={() => setSelectedUnit(u.id)} style={{
-                      display:"flex",alignItems:"center",gap:16,padding:"16px 4px",
-                      borderBottom:"1px solid var(--border)",background:"none",borderLeft:"none",borderRight:"none",
-                      cursor:"pointer",textAlign:"left",width:"100%",transition:"all .15s",
-                    }}>
-                      <span style={{fontFamily:"var(--mono)",fontSize:13,fontWeight:700,color: active ? "var(--red)" : "#CCC",width:28,transition:"color .15s"}}>{u.short}</span>
-                      <span style={{flex:1,fontSize:15,fontWeight: active ? 700 : 400,color: active ? "var(--text)" : "#666",transition:"all .15s",letterSpacing: active ? 0.5 : 0}}>{u.label}</span>
-                      <span style={{fontFamily:"var(--mono)",fontSize:11,color:"#CCC",fontWeight:400}}>{String(u.count).padStart(2,"0")}</span>
-                      <span style={{width:16,height:16,borderRadius:"50%",border: active ? "none" : "1.5px solid #DDD",background: active ? "var(--red)" : "transparent",transition:"all .15s",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                        {active && <span style={{color:"white",fontSize:9}}>✓</span>}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Toggles */}
-            <div style={{marginBottom:40}}>
-              <div style={{...labelStyle,marginBottom:16,paddingLeft:1}}>PREFERENCES</div>
-              <div style={{display:"flex",gap:12}}>
-                {[
-                  {label:"Shuffle Questions", val:shuffleQ, set:setShuffleQ},
-                  {label:"Shuffle Options", val:shuffleOpts, set:setShuffleOpts},
-                ].map(t => (
-                  <button key={t.label} onClick={() => t.set(p => !p)} style={{
-                    flex:1,padding:"14px 16px",borderRadius:2,
-                    border: t.val ? "1.5px solid var(--red)" : "1.5px solid var(--border)",
-                    background: t.val ? "var(--red-soft)" : "var(--surface)",cursor:"pointer",
-                    display:"flex",alignItems:"center",justifyContent:"space-between",
-                    transition:"all .15s",fontSize:13,fontWeight: t.val ? 600 : 400,
-                    color: t.val ? "var(--red)" : "#666",
-                  }}>
-                    <span>{t.label}</span>
-                    <span style={{
-                      width:36,height:20,borderRadius:10,background: t.val ? "var(--red)" : "#E5E5E5",
-                      position:"relative",transition:"background .2s",flexShrink:0,
-                    }}>
-                      <span style={{
-                        width:16,height:16,borderRadius:"50%",background:"white",position:"absolute",top:2,
-                        left: t.val ? 18 : 2,transition:"left .2s",boxShadow:"0 1px 3px rgba(0,0,0,0.2)",
-                      }}/>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Start */}
-            <button onClick={startQuiz} style={{
-              width:"100%",padding:"18px",borderRadius:2,border:"none",
-              background:"var(--red)",color:"white",
-              fontSize:14,fontWeight:700,cursor:"pointer",letterSpacing:2,
-              fontFamily:"var(--mono)",transition:"all .15s",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background="#E0342B"; }}
-              onMouseLeave={e => { e.currentTarget.style.background="var(--red)"; }}
-            >
-              START QUIZ →
-            </button>
-          </main>
-        </div>
-      </>
-    );
-  }
-
-  // ── RESULT SCREEN ─────────────────────────────────────────────────────────
-  if (screen === "result") {
-    const gradeColor = pct >= 80 ? "var(--green)" : pct >= 60 ? "var(--amber)" : "var(--red)";
-    const gradeLabel = pct >= 80 ? "PASS" : pct >= 60 ? "AVERAGE" : "FAIL";
-    const wrongCount = Object.keys(answers).filter(k => {
-      const m = optMapping[Number(k)] || [0,1,2,3];
-      const qx = questions.find(qx => qx.id === Number(k));
-      return qx && m[answers[k]] !== qx.ans;
-    }).length;
-    const skippedCount = questions.length - Object.keys(answers).length;
-
-    return (
-      <>
-        <FontInjector/>
-        <div style={{minHeight:"100vh",background:"var(--bg)"}}>
-          <header style={{borderBottom:"1px solid var(--border)",background:"var(--bg)",position:"sticky",top:0,zIndex:20}}>
-            <div style={{maxWidth:640,margin:"0 auto",padding:"16px 24px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
-                <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>RESULTS</span>
-              </div>
-              <button onClick={() => setScreen("home")} style={{
-                padding:"6px 14px",borderRadius:2,border:"1.5px solid var(--border)",background:"var(--surface)",
-                cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",fontFamily:"var(--mono)",letterSpacing:1,transition:"all .15s",
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red)"; e.currentTarget.style.color = "var(--red)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "#666"; }}
-              >← BACK</button>
-            </div>
-          </header>
-
-          <main style={{maxWidth:640,margin:"0 auto",padding:"40px 24px 80px"}}>
-            {/* Score */}
-            <div style={{textAlign:"center",marginBottom:48,paddingBottom:40,borderBottom:"1px solid var(--border)"}}>
-              <div style={{...labelStyle,marginBottom:16,color:gradeColor}}>{gradeLabel}</div>
-              <div style={{fontFamily:"var(--mono)",fontSize:72,fontWeight:700,lineHeight:1,color:gradeColor,letterSpacing:-4}}>
-                {pct}<span style={{fontSize:24,color:"#CCC"}}>%</span>
-              </div>
-              <div style={{fontSize:14,color:"#888",marginTop:8,fontFamily:"var(--mono)"}}>
-                {score}/{questions.length} CORRECT
-              </div>
-
-              <div style={{display:"flex",justifyContent:"center",gap:40,marginTop:32}}>
-                {[
-                  {label:"CORRECT",val:score,color:"var(--green)"},
-                  {label:"WRONG",val:wrongCount,color:"var(--red)"},
-                  {label:"SKIPPED",val:skippedCount,color:"var(--amber)"},
-                ].map(s => (
-                  <div key={s.label} style={{textAlign:"center"}}>
-                    <div style={{fontFamily:"var(--mono)",fontSize:28,fontWeight:700,color:s.color,lineHeight:1}}>{String(s.val).padStart(2,"0")}</div>
-                    <div style={{...labelStyle,fontSize:8,marginTop:6,color:s.color}}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Bar */}
-              <div style={{maxWidth:300,margin:"24px auto 0",height:3,background:"#E5E5E5",borderRadius:0,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${pct}%`,background:gradeColor,transition:"width .6s ease"}}/>
-              </div>
-            </div>
-
-            {/* Review */}
-            <div style={{...labelStyle,marginBottom:20,paddingLeft:1}}>REVIEW</div>
-            <div style={{display:"flex",flexDirection:"column",gap:0}}>
-              {questions.map((qx, idx) => {
-                const m = optMapping[qx.id] || [0,1,2,3];
-                const chosen = answers[qx.id];
-                const correct = chosen !== undefined && m[chosen] === qx.ans;
-                const isWrong = chosen !== undefined && !correct;
-                const isSkipped = chosen === undefined;
-                const borderColor = correct ? "var(--green)" : isWrong ? "var(--red)" : "var(--amber)";
-                return (
-                  <details key={qx.id} style={{borderBottom:"1px solid var(--border)"}}>
-                    <summary style={{padding:"14px 0",cursor:"pointer",display:"flex",alignItems:"center",gap:12,fontSize:13,fontWeight:400,color:"var(--text)",listStyle:"none",userSelect:"none"}}>
-                      <span style={{width:6,height:6,borderRadius:"50%",background:borderColor,flexShrink:0}}/>
-                      <span style={{fontFamily:"var(--mono)",fontSize:11,color:"#CCC",fontWeight:400,width:28,flexShrink:0}}>Q{String(idx+1).padStart(2,"0")}</span>
-                      <span style={{flex:1,lineHeight:1.4,color:"#444"}}>{qx.q.slice(0,70)}{qx.q.length > 70 ? "..." : ""}</span>
-                      <span style={{color:"#CCC",fontSize:10,fontFamily:"var(--mono)",flexShrink:0}}>+</span>
-                    </summary>
-                    <div style={{padding:"0 0 16px 18px",borderLeft:"2px solid var(--border)",marginLeft:2,paddingLeft:18}}>
-                      <div style={{fontSize:14,fontWeight:500,color:"var(--text)",marginBottom:12,lineHeight:1.6}}>{qx.q}</div>
-                      {qx.diagram && <div style={{marginBottom:12}}>{qx.diagram}</div>}
-                      <div style={{fontSize:12,color:"var(--green)",fontWeight:600,fontFamily:"var(--mono)",marginBottom:4}}>
-                        ✓ {qx.opts[qx.ans]}
-                      </div>
-                      {isWrong && (
-                        <div style={{fontSize:12,color:"var(--red)",fontWeight:600,fontFamily:"var(--mono)"}}>
-                          ✗ {qx.opts[m[chosen]]}
-                        </div>
-                      )}
-                      {isSkipped && (
-                        <div style={{fontSize:12,color:"var(--amber)",fontWeight:600,fontFamily:"var(--mono)"}}>
-                          — SKIPPED
-                        </div>
-                      )}
-                    </div>
-                  </details>
-                );
-              })}
-            </div>
-          </main>
-        </div>
-      </>
-    );
-  }
-
-  // ── QUIZ SCREEN ───────────────────────────────────────────────────────────
-  if (!q) return null;
-  const chosenDisplay = answers[q.id];
-  const getOptState = (displayIdx) => {
-    const realIdx = map[displayIdx];
-    if (!submitted) return chosenDisplay === displayIdx ? "selected" : "";
-    if (realIdx === q.ans) return "correct";
-    if (chosenDisplay === displayIdx && realIdx !== q.ans) return "wrong";
-    return "";
-  };
-  const progressPct = ((current + 1) / questions.length) * 100;
-
-  const optStyle = (state) => {
-    const styles = {
-      selected: {border:"1.5px solid var(--red)",bg:"var(--red-soft)",letterBg:"var(--red)",letterColor:"white",textColor:"var(--red)",textWeight:600},
-      correct: {border:"1.5px solid var(--green)",bg:"var(--green-soft)",letterBg:"var(--green)",letterColor:"white",textColor:"var(--green)",textWeight:600},
-      wrong: {border:"1.5px solid var(--red)",bg:"var(--red-soft)",letterBg:"var(--red)",letterColor:"white",textColor:"var(--red)",textWeight:600},
-      "": {border:"1.5px solid var(--border)",bg:"var(--surface)",letterBg:"#F5F5F5",letterColor:"#AAA",textColor:"var(--text)",textWeight:400},
-    };
-    return styles[state] || styles[""];
-  };
-
-  return (
-    <>
-      <FontInjector/>
-      <div style={{minHeight:"100vh",background:"var(--bg)"}}>
-        {/* Header */}
-        <header style={{borderBottom:"1px solid var(--border)",background:"var(--bg)",position:"sticky",top:0,zIndex:20}}>
-          <div style={{maxWidth:640,margin:"0 auto",padding:"16px 24px"}}>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
-                <span style={{fontSize:11,fontWeight:600,letterSpacing:1.5,fontFamily:"var(--mono)",color:"#888"}}>{q.unitName}</span>
-              </div>
-              <span style={{fontFamily:"var(--mono)",fontSize:13,fontWeight:700,color:"var(--text)"}}>
-                {String(current+1).padStart(2,"0")}<span style={{color:"#CCC"}}>/{String(questions.length).padStart(2,"0")}</span>
-              </span>
-            </div>
-            <div style={{height:2,background:"#E5E5E5",borderRadius:0,overflow:"hidden"}}>
-              <div style={{height:"100%",width:`${progressPct}%`,background:"var(--red)",transition:"width .25s ease"}}/>
-            </div>
-          </div>
-        </header>
-
-        <main style={{maxWidth:640,margin:"0 auto",padding:"24px 24px 120px"}}>
-          {/* Dot nav */}
-          <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:28}}>
-            {questions.map((qx, i) => {
-              const m2 = optMapping[qx.id] || [0,1,2,3];
-              const a2 = answers[qx.id];
-              const isCorrect = submitted && a2 !== undefined && m2[a2] === qx.ans;
-              const isWrong = submitted && a2 !== undefined && m2[a2] !== qx.ans;
-              let bg = "#ECECEC", fg = "#BBB";
-              if (i === current) { bg = "var(--red)"; fg = "white"; }
-              else if (isCorrect) { bg = "var(--green)"; fg = "white"; }
-              else if (isWrong) { bg = "var(--red)"; fg = "white"; }
-              else if (a2 !== undefined) { bg = "#CCC"; fg = "white"; }
-              return (
-                <button key={qx.id} onClick={() => setCurrent(i)} style={{
-                  width:26,height:26,borderRadius:1,border:"none",background:bg,
-                  color:fg,cursor:"pointer",fontSize:9,fontWeight:700,fontFamily:"var(--mono)",
-                  transition:"all .1s",padding:0,
-                }}>{i+1}</button>
-              );
-            })}
-          </div>
-
-          {/* Question */}
-          <div style={{
-            opacity: fade ? 1 : 0,transform: fade ? "translateY(0)" : "translateY(4px)",
-            transition:"opacity .1s ease, transform .1s ease",
-          }}>
-            <div style={{...labelStyle,marginBottom:16}}>
-              QUESTION {String(current+1).padStart(2,"0")}
-            </div>
-
-            <div style={{fontSize:17,fontWeight:600,lineHeight:1.7,color:"var(--text)",marginBottom:20,letterSpacing:-0.2}}>
-              {q.q}
-            </div>
-
-            {q.diagram && <div style={{marginBottom:20}}>{q.diagram}</div>}
-
-            {/* Options */}
-            <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              {[0, 1, 2, 3].map((displayIdx) => {
-                const opt = q.opts[map[displayIdx]];
-                const state = getOptState(displayIdx);
-                const s = optStyle(state);
-                const disabled = submitted;
-                return (
-                  <button key={displayIdx} onClick={() => selectAnswer(q.id, displayIdx)} disabled={disabled} style={{
-                    padding:"14px 16px",borderRadius:2,border: s.border,background:s.bg,
-                    cursor: disabled ? "default" : "pointer",textAlign:"left",fontSize:14,
-                    display:"flex",alignItems:"center",gap:14,transition:"all .12s",
-                    fontWeight: s.textWeight,color:s.textColor,width:"100%",outline:"none",
-                    fontFamily:"var(--sans)",
-                  }}
-                    onMouseEnter={e => { if (!disabled && state === "") { e.currentTarget.style.borderColor = "#CCC"; e.currentTarget.style.background = "#FAFAFA"; }}}
-                    onMouseLeave={e => { if (!disabled && state === "") { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "var(--surface)"; }}}
-                  >
-                    <span style={{
-                      width:26,height:26,borderRadius:2,background:s.letterBg,color:s.letterColor,
-                      display:"flex",alignItems:"center",justifyContent:"center",
-                      fontSize:10,fontWeight:700,flexShrink:0,fontFamily:"var(--mono)",transition:"all .12s",
-                    }}>
-                      {state === "correct" ? "✓" : state === "wrong" ? "✗" : LETTERS[displayIdx]}
-                    </span>
-                    <span>{opt}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </main>
-
-        {/* Bottom Nav */}
-        <div style={{
-          position:"fixed",bottom:0,left:0,right:0,
-          background:"var(--bg)",borderTop:"1px solid var(--border)",
-          padding:"14px 24px",zIndex:20,
-        }}>
-          <div style={{
-            maxWidth:640,margin:"0 auto",
-            display:"flex",justifyContent:"space-between",alignItems:"center",
-          }}>
-            {/* Prev */}
-            <button onClick={goPrev} disabled={current === 0} style={{
-              padding:"10px 20px",borderRadius:2,
-              border:"1.5px solid var(--border)",
-              background: current === 0 ? "var(--bg)" : "var(--surface)",
-              cursor: current === 0 ? "not-allowed" : "pointer",
-              fontSize:11,fontWeight:600,
-              color: current === 0 ? "#DDD" : "#666",
-              fontFamily:"var(--mono)",letterSpacing:1,
-            }}>
-              ← PREV
-            </button>
-
-            {/* Right side */}
-            <div style={{display:"flex",gap:10}}>
-              {!submitted && current < questions.length - 1 && (
-                <button onClick={goNext} style={{
-                  padding:"10px 20px",borderRadius:2,
-                  border:"1.5px solid var(--border)",background:"var(--surface)",
-                  cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",
-                  fontFamily:"var(--mono)",letterSpacing:1,
-                }}>
-                  NEXT →
-                </button>
-              )}
-
-              {/* BUG FIX: allAnswered now references the variable defined above */}
-              {!submitted && allAnswered && (
-                <button onClick={submitQuiz} style={{
-                  padding:"10px 24px",borderRadius:2,border:"none",
-                  background:"var(--red)",color:"white",
-                  fontSize:11,fontWeight:700,cursor:"pointer",
-                  fontFamily:"var(--mono)",letterSpacing:1,
-                }}>
-                  SUBMIT
-                </button>
-              )}
-
-              {submitted && (
-                <button onClick={() => setScreen("result")} style={{
-                  padding:"10px 24px",borderRadius:2,
-                  border:"1.5px solid var(--red)",background:"transparent",
-                  color:"var(--red)",fontSize:11,fontWeight:700,cursor:"pointer",
-                  fontFamily:"var(--mono)",letterSpacing:1,
-                }}>
-                  VIEW RESULTS →
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
