@@ -289,6 +289,29 @@ export default function QuizApp() {
   const q = questions[current];
   const map = q ? (optMapping[q.id] || [0,1,2,3]) : [];
 
+  // Questions answered wrongly or skipped in the attempt that was just submitted
+  const missedQuestions = submitted ? questions.filter(qx => {
+    const chosen = answers[qx.id];
+    if (chosen === undefined) return true;
+    const m = optMapping[qx.id] || [0,1,2,3];
+    return m[chosen] !== qx.ans;
+  }) : [];
+
+  // Retry: new quiz with only the wrong + skipped questions (respects the shuffle toggles)
+  const retryMissed = () => {
+    if (missedQuestions.length === 0) return;
+    let qs = [...missedQuestions];
+    if (shuffleQ) qs = shuffle(qs);
+    const mapping = {};
+    qs.forEach(qx => { mapping[qx.id] = shuffleOpts ? shuffle([0,1,2,3]) : [0,1,2,3]; });
+    setQuestions(qs);
+    setOptMapping(mapping);
+    setAnswers({});
+    setCurrent(0);
+    setSubmitted(false);
+    setScreen("quiz");
+  };
+
   // BUG FIX: define allAnswered so the submit button condition works
   const allAnswered = questions.length > 0 && Object.keys(answers).length === questions.length;
 
@@ -332,8 +355,6 @@ export default function QuizApp() {
                 <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
                 <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>QUIZ HUB</span>
               </div>
-              <div style={{display:"flex",alignItems:"center",gap:14}}>
-              {restartBtn}
               <span
               style={{
                 fontSize: 11,
@@ -345,7 +366,6 @@ export default function QuizApp() {
             >
               BY சிஜே.
             </span>
-              </div>
             </div>
           </header>
 
@@ -529,8 +549,19 @@ export default function QuizApp() {
               })}
             </div>
 
+            {missedQuestions.length > 0 && (
+              <button onClick={retryMissed} style={{
+                width:"100%",marginTop:32,padding:"16px 24px",borderRadius:2,border:"1.5px solid var(--red)",
+                background:"var(--red-soft)",color:"var(--red)",cursor:"pointer",fontSize:13,fontWeight:700,
+                fontFamily:"var(--mono)",letterSpacing:1.5,transition:"all .15s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background="var(--red)"; e.currentTarget.style.color="white"; }}
+                onMouseLeave={e => { e.currentTarget.style.background="var(--red-soft)"; e.currentTarget.style.color="var(--red)"; }}
+              >RETRY WRONG QUESTIONS ({missedQuestions.length})</button>
+            )}
+
             <button onClick={restartAll} style={{
-              width:"100%",marginTop:32,padding:"16px 24px",borderRadius:2,border:"none",
+              width:"100%",marginTop:missedQuestions.length > 0 ? 12 : 32,padding:"16px 24px",borderRadius:2,border:"none",
               background:"var(--red)",color:"white",cursor:"pointer",fontSize:13,fontWeight:700,
               fontFamily:"var(--mono)",letterSpacing:1.5,transition:"background .15s",
             }}
