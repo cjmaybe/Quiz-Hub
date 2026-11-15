@@ -148,64 +148,64 @@ const ALL_QUESTIONS = [
   // ═══ 23TPS05 – QUANTITATIVE APTITUDE & LOGICAL REASONING III (SET 01) ═══
 
   // UNIT I – Data Interpretation & Clocks
-  {id:1, unit:1, unitName:"DATA & CLOCKS", q:"What is the ratio of the total revenue of Company B and Company E combined to their total expenses combined?", opts:["51 : 38","3 : 2","17 : 13","5 : 4"], ans:0, diagram:<CompanyTable/>},
-  {id:2, unit:1, unitName:"DATA & CLOCKS", q:"Which company recorded the highest profit margin percentage (Profit / Revenue × 100)?", opts:["Company D","Company A","Company B","Company E"], ans:0, diagram:<CompanyTable/>},
-  {id:3, unit:1, unitName:"DATA & CLOCKS", q:"What was the difference between the number of votes obtained by Yasin and Vishwanath?", opts:["80","30","40","20"], ans:0, diagram:<VotesPieDiagram/>},
-  {id:4, unit:1, unitName:"DATA & CLOCKS", q:"What is the difference in the subscription of scheme V between December and February?", opts:["₹30 crores","₹80 lacs","₹240 crores","₹240 lacs"], ans:0, diagram:<SubscriptionTable/>},
-  {id:5, unit:1, unitName:"DATA & CLOCKS", q:"Find the total difference between September and November.", opts:["210 cr","160 cr","45 cr","140 cr"], ans:0, diagram:<SubscriptionTable/>},
-  {id:6, unit:1, unitName:"DATA & CLOCKS", q:"What is the angle between the hour hand and the minute hand at 3:30?", opts:["75°","65°","95°","105°"], ans:0},
-  {id:7, unit:1, unitName:"DATA & CLOCKS", q:"At what time between 4 o'clock and 5 o'clock will the hands of a clock coincide?", opts:["21 9/11 minutes past 4","21 10/11 minutes past 4","21 2/11 minutes past 4","23 9/11 minutes past 4"], ans:0},
-  {id:8, unit:1, unitName:"DATA & CLOCKS", q:"How many times in a day (24 hours) do the hands of a clock form a straight line (0° or 180°)?", opts:["44","48","24","22"], ans:0},
-  {id:9, unit:1, unitName:"DATA & CLOCKS", q:"Find the reflex angle between the hands of a clock at 10:25.", opts:["197.5°","165.5°","105°","175°"], ans:0},
-  {id:10, unit:1, unitName:"DATA & CLOCKS", q:"When the hands of a clock are at 180°, they are ________ spaces apart.", opts:["30 minutes","15 minutes","35 minutes","60 minutes"], ans:0},
+  {id:1, unit:1, unitName:"DATA & CLOCKS", q:"What is the ratio of the total revenue of Company B and Company E combined to their total expenses combined?", opts:["51 : 38", "3 : 2", "17 : 13", "5 : 4"], ans:0, diagram:<CompanyTable/>},
+  {id:2, unit:1, unitName:"DATA & CLOCKS", q:"Which company recorded the highest profit margin percentage (Profit / Revenue × 100)?", opts:["Company A", "Company B", "Company D", "Company E"], ans:2, diagram:<CompanyTable/>},
+  {id:3, unit:1, unitName:"DATA & CLOCKS", q:"What was the difference between the number of votes obtained by Yasin and Vishwanath?", opts:["30", "80", "40", "20"], ans:1, diagram:<VotesPieDiagram/>},
+  {id:4, unit:1, unitName:"DATA & CLOCKS", q:"What is the difference in the subscription of scheme V between December and February?", opts:["₹80 lacs", "₹240 crores", "₹30 crores", "₹240 lacs"], ans:2, diagram:<SubscriptionTable/>},
+  {id:5, unit:1, unitName:"DATA & CLOCKS", q:"Find the total difference between September and November.", opts:["210 cr", "160 cr", "45 cr", "140 cr"], ans:0, diagram:<SubscriptionTable/>},
+  {id:6, unit:1, unitName:"DATA & CLOCKS", q:"What is the angle between the hour hand and the minute hand at 3:30?", opts:["65°", "95°", "105°", "75°"], ans:3},
+  {id:7, unit:1, unitName:"DATA & CLOCKS", q:"At what time between 4 o'clock and 5 o'clock will the hands of a clock coincide?", opts:["21 10/11 minutes past 4", "21 9/11 minutes past 4", "21 2/11 minutes past 4", "23 9/11 minutes past 4"], ans:1},
+  {id:8, unit:1, unitName:"DATA & CLOCKS", q:"How many times in a day (24 hours) do the hands of a clock form a straight line (0° or 180°)?", opts:["44", "48", "24", "22"], ans:0},
+  {id:9, unit:1, unitName:"DATA & CLOCKS", q:"Find the reflex angle between the hands of a clock at 10:25.", opts:["165.5°", "197.5°", "105°", "175°"], ans:1},
+  {id:10, unit:1, unitName:"DATA & CLOCKS", q:"When the hands of a clock are at 180°, they are ________ spaces apart.", opts:["15 minutes", "35 minutes", "30 minutes", "60 minutes"], ans:2},
 
   // UNIT II – Calendar & Series
-  {id:11, unit:2, unitName:"CALENDAR & SERIES", q:"If 15th August 2011 was a Monday, what day of the week was 15th August 2012?", opts:["Wednesday","Monday","Tuesday","Thursday"], ans:0},
-  {id:12, unit:2, unitName:"CALENDAR & SERIES", q:"The odd days of 646 days is ________.", opts:["2 days","3 days","5 days","4 days"], ans:0},
-  {id:13, unit:2, unitName:"CALENDAR & SERIES", q:"Which of these days cannot be the last day of a century?", opts:["Saturday","Monday","Sunday","Friday"], ans:0},
-  {id:14, unit:2, unitName:"CALENDAR & SERIES", q:"Today is Tuesday. What day of the week will it be after 62 days?", opts:["Monday","Sunday","Tuesday","Wednesday"], ans:0},
-  {id:15, unit:2, unitName:"CALENDAR & SERIES", q:"Which of the following century years is NOT a leap year?", opts:["2100","1600","2000","2400"], ans:0},
-  {id:16, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing number in the series: 4, 11, 25, 53, 109, ?", opts:["221","217","219","225"], ans:0},
-  {id:17, unit:2, unitName:"CALENDAR & SERIES", q:"What comes next in the sequence: 2, 3, 10, 39, 172, ?", opts:["885","785","865","845"], ans:0},
-  {id:18, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term: 3, 7, 16, 32, 57, ?", opts:["93","85","92","98"], ans:0},
-  {id:19, unit:2, unitName:"CALENDAR & SERIES", q:"Find the odd number from the given options: 35, 49, 63, 81, 91", opts:["81","35","49","63"], ans:0},
-  {id:20, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term of the series: 10, 12, 22, 34, 56, 90, ?", opts:["146","188","160","100"], ans:0},
+  {id:11, unit:2, unitName:"CALENDAR & SERIES", q:"If 15th August 2011 was a Monday, what day of the week was 15th August 2012?", opts:["Monday", "Tuesday", "Wednesday", "Thursday"], ans:2},
+  {id:12, unit:2, unitName:"CALENDAR & SERIES", q:"The odd days of 646 days is ________.", opts:["3 days", "2 days", "5 days", "4 days"], ans:1},
+  {id:13, unit:2, unitName:"CALENDAR & SERIES", q:"Which of these days cannot be the last day of a century?", opts:["Monday", "Sunday", "Saturday", "Friday"], ans:2},
+  {id:14, unit:2, unitName:"CALENDAR & SERIES", q:"Today is Tuesday. What day of the week will it be after 62 days?", opts:["Sunday", "Monday", "Tuesday", "Wednesday"], ans:1},
+  {id:15, unit:2, unitName:"CALENDAR & SERIES", q:"Which of the following century years is NOT a leap year?", opts:["1600", "2000", "2400", "2100"], ans:3},
+  {id:16, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing number in the series: 4, 11, 25, 53, 109, ?", opts:["217", "221", "219", "225"], ans:1},
+  {id:17, unit:2, unitName:"CALENDAR & SERIES", q:"What comes next in the sequence: 2, 3, 10, 39, 172, ?", opts:["885", "785", "865", "845"], ans:0},
+  {id:18, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term: 3, 7, 16, 32, 57, ?", opts:["85", "93", "92", "98"], ans:1},
+  {id:19, unit:2, unitName:"CALENDAR & SERIES", q:"Find the odd number from the given options: 35, 49, 63, 81, 91", opts:["35", "49", "63", "81"], ans:3},
+  {id:20, unit:2, unitName:"CALENDAR & SERIES", q:"Find the missing term of the series: 10, 12, 22, 34, 56, 90, ?", opts:["188", "160", "146", "100"], ans:2},
 
   // UNIT III – Simple & Compound Interest
-  {id:21, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the time period for which ₹6,000 amounts to ₹12,000 at 20% p.a. simple interest?", opts:["5 years","2 years","3 years","4 years"], ans:0},
-  {id:22, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹400","₹490","₹500","₹450"], ans:0},
-  {id:23, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"₹7,000 is invested at 6% per annum for 2 years. Find the total amount.", opts:["₹7,840","₹7,800","₹8,840","₹7,700"], ans:0},
-  {id:24, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹1,500 at 10% per annum for 4 years.", opts:["₹600","₹650","₹660","₹610"], ans:0},
-  {id:25, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"A sum of ₹8,000 earns ₹1,200 as simple interest in 3 years. Find the rate of interest.", opts:["5%","6%","7%","10%"], ans:0},
-  {id:26, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the formula to find Compound Interest (compounded annually)?", opts:["CI = P(1 + R/100)ⁿ − P","CI = P(1 + R/1000)ⁿ − P","CI = P(1 + 2R/100)ⁿ − P","CI = P(1 + R/10)ⁿ − P"], ans:0},
-  {id:27, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹2,000 at 5% per annum for 2 years, compounded annually.", opts:["₹2,205","₹2,105","₹2,005","₹2,200"], ans:0},
-  {id:28, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹5,000 at 10% per annum for 2 years.", opts:["₹1,050","₹1,000","₹1,010","₹1,150"], ans:0},
-  {id:29, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹1,500 at 10% per annum for 2 years (compounded annually).", opts:["₹1,815","₹1,810","₹1,805","₹1,915"], ans:0},
-  {id:30, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹416","₹412","₹411","₹410"], ans:0},
+  {id:21, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the time period for which ₹6,000 amounts to ₹12,000 at 20% p.a. simple interest?", opts:["2 years", "5 years", "3 years", "4 years"], ans:1},
+  {id:22, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹490", "₹500", "₹400", "₹450"], ans:2},
+  {id:23, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"₹7,000 is invested at 6% per annum for 2 years. Find the total amount.", opts:["₹7,800", "₹7,840", "₹8,840", "₹7,700"], ans:1},
+  {id:24, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the simple interest on ₹1,500 at 10% per annum for 4 years.", opts:["₹600", "₹650", "₹660", "₹610"], ans:0},
+  {id:25, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"A sum of ₹8,000 earns ₹1,200 as simple interest in 3 years. Find the rate of interest.", opts:["6%", "5%", "7%", "10%"], ans:1},
+  {id:26, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"What is the formula to find Compound Interest (compounded annually)?", opts:["CI = P(1 + R/100)ⁿ − P", "CI = P(1 + R/1000)ⁿ − P", "CI = P(1 + 2R/100)ⁿ − P", "CI = P(1 + R/10)ⁿ − P"], ans:0},
+  {id:27, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹2,000 at 5% per annum for 2 years, compounded annually.", opts:["₹2,105", "₹2,205", "₹2,005", "₹2,200"], ans:1},
+  {id:28, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹5,000 at 10% per annum for 2 years.", opts:["₹1,000", "₹1,010", "₹1,050", "₹1,150"], ans:2},
+  {id:29, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the amount on ₹1,500 at 10% per annum for 2 years (compounded annually).", opts:["₹1,815", "₹1,810", "₹1,805", "₹1,915"], ans:0},
+  {id:30, unit:3, unitName:"SIMPLE & COMPOUND INTEREST", q:"Find the compound interest on ₹2,500 at 8% per annum for 2 years.", opts:["₹412", "₹411", "₹416", "₹410"], ans:2},
 
   // UNIT IV – Course of Action & Syllogism
-  {id:31, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A school has reported that several students are not attending classes regularly.\nCourse of Action:\nI. Teachers should identify the reasons for poor attendance.\nII. The school should encourage parents to monitor attendance.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
-  {id:32, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A hospital is crowded because many patients arrive at the same time.\nCourse of Action:\nI. The hospital should improve its appointment system.\nII. The hospital should refuse treatment to all new patients.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:33, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Many road accidents are occurring at a particular junction.\nCourse of Action:\nI. Traffic signals or warning signs should be considered at the junction.\nII. Traffic authorities should study the causes of the accidents.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
-  {id:34, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Students are finding it difficult to understand a particular subject.\nCourse of Action:\nI. The teacher should provide additional explanation and practice.\nII. The subject should be removed from the curriculum immediately.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:35, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A company wants to improve the skills of its employees.\nCourse of Action:\nI. The company should conduct regular training programmes.\nII. Employees should be given opportunities to learn new skills.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
-  {id:36, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: Some books are novels. All novels are interesting.\nI. Some books are interesting.\nII. All books are interesting.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:37, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All apples are fruits. Some fruits are sweet.\nI. Some apples are sweet.\nII. All apples are fruits.", opts:["Only II follows","Only I follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:38, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: No teachers are students. Some students are athletes.\nI. Some athletes are not teachers.\nII. No athletes are teachers.", opts:["Only I follows","Only II follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:39, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All laptops are electronic devices. Some electronic devices are expensive.\nI. Some laptops are expensive.\nII. All laptops are electronic devices.", opts:["Only II follows","Only I follows","Neither I nor II follows","Both I and II follow"], ans:0},
-  {id:40, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All singers are artists. All artists are creative.\nI. All singers are creative.\nII. Some creative people are singers.", opts:["Both I and II follow","Only I follows","Only II follows","Neither I nor II follows"], ans:0},
+  {id:31, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A school has reported that several students are not attending classes regularly.\nCourse of Action:\nI. Teachers should identify the reasons for poor attendance.\nII. The school should encourage parents to monitor attendance.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:3},
+  {id:32, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A hospital is crowded because many patients arrive at the same time.\nCourse of Action:\nI. The hospital should improve its appointment system.\nII. The hospital should refuse treatment to all new patients.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:0},
+  {id:33, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Many road accidents are occurring at a particular junction.\nCourse of Action:\nI. Traffic signals or warning signs should be considered at the junction.\nII. Traffic authorities should study the causes of the accidents.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:3},
+  {id:34, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: Students are finding it difficult to understand a particular subject.\nCourse of Action:\nI. The teacher should provide additional explanation and practice.\nII. The subject should be removed from the curriculum immediately.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:0},
+  {id:35, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statement: A company wants to improve the skills of its employees.\nCourse of Action:\nI. The company should conduct regular training programmes.\nII. Employees should be given opportunities to learn new skills.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:3},
+  {id:36, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: Some books are novels. All novels are interesting.\nI. Some books are interesting.\nII. All books are interesting.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:0},
+  {id:37, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All apples are fruits. Some fruits are sweet.\nI. Some apples are sweet.\nII. All apples are fruits.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:1},
+  {id:38, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: No teachers are students. Some students are athletes.\nI. Some athletes are not teachers.\nII. No athletes are teachers.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:0},
+  {id:39, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All laptops are electronic devices. Some electronic devices are expensive.\nI. Some laptops are expensive.\nII. All laptops are electronic devices.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:1},
+  {id:40, unit:4, unitName:"COURSE OF ACTION & SYLLOGISM", q:"Statements: All singers are artists. All artists are creative.\nI. All singers are creative.\nII. Some creative people are singers.", opts:["Only I follows", "Only II follows", "Neither I nor II follows", "Both I and II follow"], ans:3},
 
   // UNIT V – Seating Arrangement & Data Sufficiency
-  {id:41, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six friends (P, Q, R, S, T, U) are sitting in a row facing North. P and U are at the extreme ends. R is sitting to the immediate right of P. S is to the immediate left of U. Q is to the immediate left of S. Who is sitting to the immediate right of R?", opts:["T","Q","P","S"], ans:0},
-  {id:42, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Five students are sitting in a row facing South. (When facing South, 'Right' is towards the observer's Left.) A is at the extreme left end. B is to the immediate right of A. C is in the middle. D is to the right of C, and E is at the extreme right end. Who is sitting to the immediate left of C?", opts:["B","A","E","D"], ans:0},
-  {id:43, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Four people (M, N, O, P) are sitting in a line facing North. M is to the immediate left of N. O is to the immediate right of N. P is to the immediate right of O. Who is sitting at the extreme left end?", opts:["M","N","O","P"], ans:0},
-  {id:44, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Eight people P, Q, R, S, T, U, V and W sit around a circle. P is opposite T. Q is opposite U. R is opposite V. Who is opposite S?", opts:["W","Q","P","T"], ans:0},
-  {id:45, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six students A, B, C, D, E and F sit around a circular table. A is immediately right of B. C is immediately right of A. Who is immediately left of A?", opts:["B","A","E","D"], ans:0},
-  {id:46, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the perimeter of a square?\nI. Each side is 6 cm.\nII. All four sides are equal.", opts:["Statement I alone is sufficient","Statement II alone is sufficient","Both statements together are sufficient","Either statement alone is sufficient"], ans:0},
-  {id:47, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many books does Arun have?\nI. Arun has 5 more books than Bala.\nII. Bala has 10 books.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0},
-  {id:48, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of z?\nI. z − 3 = 9.\nII. z is greater than 5.", opts:["Statement I alone is sufficient","Statement II alone is sufficient","Both statements together are sufficient","Either statement alone is sufficient"], ans:0},
-  {id:49, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many students are in a class?\nI. There are 20 boys.\nII. There are 15 girls.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0},
-  {id:50, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of x/y?\nI. x = 12.\nII. y = 3.", opts:["Both statements together are sufficient","Statement I alone is sufficient","Statement II alone is sufficient","Either statement alone is sufficient"], ans:0}
+  {id:41, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six friends (P, Q, R, S, T, U) are sitting in a row facing North. P and U are at the extreme ends. R is sitting to the immediate right of P. S is to the immediate left of U. Q is to the immediate left of S. Who is sitting to the immediate right of R?", opts:["T", "Q", "P", "S"], ans:0},
+  {id:42, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Five students are sitting in a row facing South. (When facing South, 'Right' is towards the observer's Left.) A is at the extreme left end. B is to the immediate right of A. C is in the middle. D is to the right of C, and E is at the extreme right end. Who is sitting to the immediate left of C?", opts:["A", "B", "E", "D"], ans:1},
+  {id:43, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Four people (M, N, O, P) are sitting in a line facing North. M is to the immediate left of N. O is to the immediate right of N. P is to the immediate right of O. Who is sitting at the extreme left end?", opts:["N", "M", "O", "P"], ans:1},
+  {id:44, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Eight people P, Q, R, S, T, U, V and W sit around a circle. P is opposite T. Q is opposite U. R is opposite V. Who is opposite S?", opts:["W", "Q", "P", "T"], ans:0},
+  {id:45, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Six students A, B, C, D, E and F sit around a circular table. A is immediately right of B. C is immediately right of A. Who is immediately left of A?", opts:["A", "B", "E", "D"], ans:1},
+  {id:46, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the perimeter of a square?\nI. Each side is 6 cm.\nII. All four sides are equal.", opts:["Statement I alone is sufficient", "Statement II alone is sufficient", "Both statements together are sufficient", "Either statement alone is sufficient"], ans:0},
+  {id:47, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many books does Arun have?\nI. Arun has 5 more books than Bala.\nII. Bala has 10 books.", opts:["Statement I alone is sufficient", "Statement II alone is sufficient", "Both statements together are sufficient", "Either statement alone is sufficient"], ans:2},
+  {id:48, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of z?\nI. z − 3 = 9.\nII. z is greater than 5.", opts:["Statement I alone is sufficient", "Statement II alone is sufficient", "Both statements together are sufficient", "Either statement alone is sufficient"], ans:0},
+  {id:49, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: How many students are in a class?\nI. There are 20 boys.\nII. There are 15 girls.", opts:["Statement I alone is sufficient", "Statement II alone is sufficient", "Both statements together are sufficient", "Either statement alone is sufficient"], ans:2},
+  {id:50, unit:5, unitName:"SEATING & DATA SUFFICIENCY", q:"Data Sufficiency: What is the value of x/y?\nI. x = 12.\nII. y = 3.", opts:["Statement I alone is sufficient", "Statement II alone is sufficient", "Both statements together are sufficient", "Either statement alone is sufficient"], ans:2}
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -295,6 +295,29 @@ export default function QuizApp() {
   // Shared label style
   const labelStyle = {fontSize:10,fontWeight:600,letterSpacing:2,textTransform:"uppercase",color:"#888",fontFamily:"var(--mono)"};
 
+  // Restart — same behaviour as restartAll() in the other project: clear everything, back to home
+  const restartAll = () => {
+    setSelectedUnit(0);
+    setShuffleQ(false);
+    setShuffleOpts(false);
+    setQuestions([]);
+    setCurrent(0);
+    setAnswers({});
+    setSubmitted(false);
+    setOptMapping({});
+    setScreen("home");
+  };
+
+  const restartBtn = (
+    <button onClick={restartAll} style={{
+      padding:"6px 14px",borderRadius:2,border:"1.5px solid var(--border)",background:"var(--surface)",
+      cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",fontFamily:"var(--mono)",letterSpacing:1,transition:"all .15s",
+    }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red)"; e.currentTarget.style.color = "var(--red)"; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "#666"; }}
+    >Restart</button>
+  );
+
   // ── HOME SCREEN ───────────────────────────────────────────────────────────
   if (screen === "home") {
     return (
@@ -309,6 +332,8 @@ export default function QuizApp() {
                 <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
                 <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>QUIZ HUB</span>
               </div>
+              <div style={{display:"flex",alignItems:"center",gap:14}}>
+              {restartBtn}
               <span
               style={{
                 fontSize: 11,
@@ -320,6 +345,7 @@ export default function QuizApp() {
             >
               BY சிஜே.
             </span>
+              </div>
             </div>
           </header>
 
@@ -429,13 +455,7 @@ export default function QuizApp() {
                 <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
                 <span style={{fontSize:14,fontWeight:700,letterSpacing:1,fontFamily:"var(--mono)"}}>RESULTS</span>
               </div>
-              <button onClick={() => setScreen("home")} style={{
-                padding:"6px 14px",borderRadius:2,border:"1.5px solid var(--border)",background:"var(--surface)",
-                cursor:"pointer",fontSize:11,fontWeight:600,color:"#666",fontFamily:"var(--mono)",letterSpacing:1,transition:"all .15s",
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red)"; e.currentTarget.style.color = "var(--red)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "#666"; }}
-              >← BACK</button>
+              {restartBtn}
             </div>
           </header>
 
@@ -508,6 +528,15 @@ export default function QuizApp() {
                 );
               })}
             </div>
+
+            <button onClick={restartAll} style={{
+              width:"100%",marginTop:32,padding:"16px 24px",borderRadius:2,border:"none",
+              background:"var(--red)",color:"white",cursor:"pointer",fontSize:13,fontWeight:700,
+              fontFamily:"var(--mono)",letterSpacing:1.5,transition:"background .15s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background="#E0342B"; }}
+              onMouseLeave={e => { e.currentTarget.style.background="var(--red)"; }}
+            >Restart Quiz</button>
           </main>
         </div>
       </>
@@ -548,9 +577,12 @@ export default function QuizApp() {
                 <div style={{width:8,height:8,background:"var(--red)",borderRadius:"50%"}}/>
                 <span style={{fontSize:11,fontWeight:600,letterSpacing:1.5,fontFamily:"var(--mono)",color:"#888"}}>{q.unitName}</span>
               </div>
+              <div style={{display:"flex",alignItems:"center",gap:14}}>
+              {restartBtn}
               <span style={{fontFamily:"var(--mono)",fontSize:13,fontWeight:700,color:"var(--text)"}}>
                 {String(current+1).padStart(2,"0")}<span style={{color:"#CCC"}}>/{String(questions.length).padStart(2,"0")}</span>
               </span>
+              </div>
             </div>
             <div style={{height:2,background:"#E5E5E5",borderRadius:0,overflow:"hidden"}}>
               <div style={{height:"100%",width:`${progressPct}%`,background:"var(--red)",transition:"width .25s ease"}}/>
